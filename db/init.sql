@@ -14,7 +14,7 @@ VALUES
 
 
 
-CREATE TABLE user(
+CREATE TABLE users (
     id INT UNSIGNED NOT NULL AUTO_INCREMENT, 
     username VARCHAR(8)  NOT NULL,
     password VARCHAR(32) NOT NULL,
@@ -25,20 +25,4 @@ CREATE TABLE user(
     hash VARCHAR(32) NOT NULL,
     if_activated BOOL NOT NULL DEFAULT false,
     PRIMARY KEY (id)
-);
-
-INSERT INTO user (
-	username
-	, password
-	, email
-	, name
-	, hash
-	, if_activated
-) VALUES (
-	'abc'
-	, 'yellow'
-	, 'abc@abc.com'
-	, 'hola'
-	, 'abc'
-	, true
 );

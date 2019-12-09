@@ -1,22 +1,22 @@
-import mysql.connector
+import pymysql
 
 
 class MysqlUtil(object):
     def __init__(self):
-        """ Empty init """
         self.__conn = None
         self.__cursor = None
 
 
     def __enter__(self):
         config = {
+            'host': 'db',
             'user': 'root',
             'password': 'root',
-            'host': 'db',
-            'port': '3306',
-            'database': 'store'
+            'port': 3306,
+            'database': 'store',
+            'cursorclass':pymysql.cursors.DictCursor
         }
-        self.__conn = mysql.connector.connect(**config)
+        self.__conn = pymysql.connect(**config)
         self.__cursor = self.__conn.cursor()
 
         return self
@@ -32,13 +32,18 @@ class MysqlUtil(object):
         self.__conn.close()
 
 
-    def execute_query(self, sql, params=None):
-        """ take in SQL, execute query and return results """
+    def execute_one(self, sql, params=None):
         self.__cursor.execute(sql, params)
-        return self.rows_to_dict_list()
+        return self.__cursor.fetchall()
 
 
-    def rows_to_dict_list(self):
-        """ converts row object to list """
-        columns = [i[0] for i in self.__cursor.description]
-        return [dict(list(zip(columns, row))) for row in self.__cursor]
+    def execute_statements(self, sps):
+        """ execute several statements in array, return results 
+            sps: [[sql1, params1], [sql1]]
+        """
+        for sp in sps:
+            sql = sp[0]
+            params = sp[1] if len(sp) > 1 else None
+            self.__cursor.execute(sql, params)
+
+        return self.__cursor.fetchall()
