@@ -13,7 +13,7 @@ class MysqlUtil(object):
             'user': 'root',
             'password': 'root',
             'port': 3306,
-            'database': 'store',
+            'database': 'general',
             'cursorclass':pymysql.cursors.DictCursor
         }
         self.__conn = pymysql.connect(**config)

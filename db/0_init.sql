@@ -1,13 +1,13 @@
-CREATE DATABASE store;
-use store;
+CREATE DATABASE general;
+USE general;
 
-CREATE TABLE colors (
+CREATE TABLE z_test(
   name VARCHAR(20),
-  color VARCHAR(10)
+  description VARCHAR(10)
 );
 
-INSERT INTO colors
-  (name, color)
+INSERT INTO z_test
+  (name, description)
 VALUES
-  ('Lancelot', 'blue'),
-  ('Galahad', 'yellow');
+  ('mimi', 'dog'),
+  ('wangwang', 'cat');

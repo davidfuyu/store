@@ -1,4 +1,4 @@
 Flask==1.1.1
+Flask-Bcrypt==0.7.1
+Flask-JWT-Extended==3.24.1
 PyMySQL==0.9.3
-flask-bcrypt
-flask-jwt-extended

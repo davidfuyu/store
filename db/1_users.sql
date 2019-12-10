@@ -1,4 +1,6 @@
-CREATE TABLE store.users (
+USE general;
+
+CREATE TABLE users (
     id INT UNSIGNED NOT NULL AUTO_INCREMENT, 
     email VARCHAR(256) NOT NULL,
     password VARCHAR(256) NOT NULL,
@@ -7,6 +9,3 @@ CREATE TABLE store.users (
     created_at TIMESTAMP NOT NULL DEFAULT NOW(),
     PRIMARY KEY (id)
 );
-INSERT INTO store.users(email, password, name) VALUES (
-  'email_test', 'password_test', 'name_test'
-)

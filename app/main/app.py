@@ -24,7 +24,7 @@ def index():
 @app.route('/dbtest')
 def dbtest():
     with Mysql() as my:
-        records = my.fetch_all('SELECT * FROM users')
+        records = my.fetch_all('SELECT * FROM z_test')
     return jsonify(records)
 
 
