@@ -10,7 +10,7 @@
           <v-container grid-list-md fluid>
             <v-row>
               <v-col cols="12">
-                <v-text-field label="username" v-model="username" class="text-xs" required></v-text-field>
+                <v-text-field label="email" v-model="email" class="text-xs" required></v-text-field>
               </v-col>
             </v-row>
             <v-row>
@@ -43,7 +43,6 @@
 <script>
 import axios from "axios";
 import router from "../router";
-// import EventBus from './EventBus'
 export default {
   name: "Login",
   data() {
@@ -56,7 +55,7 @@ export default {
   methods: {
     login() {
       axios
-        .post("/users/login", {
+        .post("/user/login", {
           email: this.email,
           password: this.password
         })

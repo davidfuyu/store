@@ -32,7 +32,12 @@ class MysqlUtil(object):
         self.__conn.close()
 
 
-    def execute_one(self, sql, params=None):
+    def fetch_one(self, sql, params=None):
+        self.__cursor.execute(sql, params)
+        return self.__cursor.fetchone()
+
+
+    def fetch_all(self, sql, params=None):
         self.__cursor.execute(sql, params)
         return self.__cursor.fetchall()
 

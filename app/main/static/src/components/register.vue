@@ -10,7 +10,7 @@
           <v-container grid-list-md fluid>
             <v-row>
               <v-col cols="12">
-                <v-text-field label="username" v-model="username" class="text-xs" required></v-text-field>
+                <v-text-field label="email" v-model="email" class="text-xs" required></v-text-field>
               </v-col>
             </v-row>
             <v-row>
@@ -29,11 +29,6 @@
             <v-row>
               <v-col cols="12">
                 <v-text-field label="name" v-model="name" class="text-xs" required></v-text-field>
-              </v-col>
-            </v-row>
-            <v-row>
-              <v-col cols="12">
-                <v-text-field label="email" v-model="email" class="text-xs" required></v-text-field>
               </v-col>
             </v-row>
           </v-container>
@@ -61,19 +56,17 @@ export default {
     return {
       showDialog: true,
       showPassword: false,
-      username: "",
+      email: "",
       password: "",
-      name: "",
-      email: ""
+      name: ""
     };
   },
   methods: {
     register() {
       axios
         .post("/user/register", {
-          username: this.username,
-          password: this.password,
           name: this.name,
+          password: this.password,
           email: this.email
         })
         .then(res => {
