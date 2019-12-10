@@ -1,6 +1,7 @@
+from flask import Flask, redirect, jsonify, request
 import os
 import inspect
-from flask import Flask, redirect
+from common.mysql_util import MysqlUtil
 
 
 app = Flask(__name__, static_url_path="")
@@ -15,10 +16,35 @@ def index():
 
 @app.route('/dbtest')
 def dbtest():
-    from common.mysql_util import MysqlUtil
     with MysqlUtil() as my:
-        records = my.execute_one('SELECT * FROM favorite_colors')
-    return str(records)
+        # records = my.execute_one('SELECT * FROM colors')
+        records = my.execute_one('SELECT * FROM users')
+    return jsonify(records)
+
+
+@app.route('/user/register', methods=['POST'])
+def register():
+    form = request.get_json()
+
+    sql = '''
+        INSERT INTO users ( username , password , email , name , redid) 
+        VALUES ( %s , %s , %s , %s , %s)
+    '''
+    params = [form['username']
+        , form['password']
+        , form['email']
+        , form['name']
+        , form['redid'] if 'redid' in form else None
+    ]
+
+    sql2 = "SELECT * from users where id = LAST_INSERT_ID()"
+
+    sps = [[sql, params], [sql2]]
+
+    with MysqlUtil() as my:
+        result = my.execute_statements(sps)
+
+    return jsonify(result)
 
 
 if __name__ == '__main__':
