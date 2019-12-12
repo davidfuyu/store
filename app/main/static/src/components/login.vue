@@ -41,37 +41,36 @@
 
 
 <script>
-import axios from "axios";
-import router from "../router";
+import { mapMutations } from "vuex";
+
 export default {
   name: "Login",
   data() {
     return {
       showDialog: true,
-      username: "",
+      email: "",
       password: ""
     };
   },
+  computed: {},
   methods: {
+    ...mapMutations("userProfile", ["userLogin"]),
     login() {
-      axios
+      this.$http
         .post("/user/login", {
           email: this.email,
           password: this.password
         })
         .then(res => {
-          localStorage.setItem("usertoken", res.data);
-          this.email = "";
-          this.password = "";
-          router.push({ name: "Profile" });
+          if (res.data.success) {
+            this.userLogin();
+            this.showDialog = false;
+            this.$router.push(this.$route.query.redirect || "/");
+          }
         });
-      this.emitMethod();
     },
     close() {
       this.showDialog = false;
-    },
-    emitMethod() {
-      //   EventBus.$emit('logged-in', 'loggedin')
     }
   }
 };

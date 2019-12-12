@@ -3,13 +3,14 @@ import os
 import inspect
 from common.mysql_util import MysqlUtil as Mysql
 from flask_bcrypt import Bcrypt
-from flask_jwt_extended import JWTManager, create_access_token
+from flask_jwt_extended import JWTManager, create_access_token, jwt_required, set_access_cookies
 
 
 app = Flask(__name__, static_url_path="")
 app.static_folder = os.path.dirname(
     os.path.abspath(inspect.stack()[0][1])) + '/static/dist'
 
+app.config['JWT_TOKEN_LOCATION'] = ['cookies']
 app.config['JWT_SECRET_KEY'] = 'secret'
 
 bcrypt = Bcrypt(app)
@@ -21,7 +22,13 @@ def index():
     return redirect('index.html')
 
 
-@app.route('/dbtest')
+@app.route('/test')
+def test():
+    return jsonify({'success': True})
+
+
+@app.route('/testdb')
+@jwt_required
 def dbtest():
     with Mysql() as my:
         records = my.fetch_all('SELECT * FROM z_test')
@@ -36,11 +43,8 @@ def register():
         INSERT INTO users ( email, password , name , redid) 
         VALUES ( %s , %s , %s , %s)
     '''
-    params = [form['email']
-        , bcrypt.generate_password_hash(form['password']).decode('utf-8')
-        , form['name']
-        , form['redid'] if 'redid' in form else None
-    ]
+    passenc = bcrypt.generate_password_hash(form['password']).decode('utf-8')
+    params = [form['email'], passenc, form['name']]
 
     sql2 = "SELECT * from users where id = LAST_INSERT_ID()"
 
@@ -60,21 +64,21 @@ def login():
     params = [form['email']]
 
     with Mysql() as my:
-        rv = my.fetch_one(q, params)
+        record = my.fetch_one(q, params)
 
-    print(rv)
+    if not bcrypt.check_password_hash(record['password'], form['password']):
+        return jsonify({"error": "Invalid username and password"})
 
-    if bcrypt.check_password_hash(rv['password'], form['password']):
-        access_token = create_access_token(
-            identity={
-                'name': rv['name'],
-                'email': rv['email']
-            })
-        result = access_token
-    else:
-        result = jsonify({"error": "Invalid username and password"})
+    access_token = create_access_token(
+        identity={
+            'name': record['name'],
+            'email': record['email']
+        })
 
-    return result
+    # Set the JWT cookies in the response
+    resp = jsonify({'success': True})
+    set_access_cookies(resp, access_token)
+    return resp, 200
 
 
 if __name__ == '__main__':

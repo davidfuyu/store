@@ -48,7 +48,6 @@
 
 <script>
 import axios from "axios";
-import router from "../router";
 // import EventBus from './EventBus'
 export default {
   name: "Register",
@@ -70,10 +69,7 @@ export default {
           email: this.email
         })
         .then(res => {
-          localStorage.setItem("usertoken", res.data);
-          this.email = "";
-          this.password = "";
-          router.push({ name: "Profile" });
+          // router.push({ name: "Profile" });
         });
       this.emitMethod();
     },

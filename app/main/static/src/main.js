@@ -9,6 +9,8 @@ Vue.config.productionTip = false
 import axios from "axios";
 import api from "@/plugins/api.js";
 Vue.use(api, { axios });
+Vue.prototype.$http = axios;
+
 
 import DialogLoading from "@/components/dialog-loading.vue";
 Vue.component("dialog-loading", DialogLoading);
