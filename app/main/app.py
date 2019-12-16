@@ -40,13 +40,13 @@ def register():
     form = request.get_json()
 
     sql = '''
-        INSERT INTO users ( email, password , name , redid) 
+        INSERT INTO user ( email, password , name , redid) 
         VALUES ( %s , %s , %s , %s)
     '''
     passenc = bcrypt.generate_password_hash(form['password']).decode('utf-8')
     params = [form['email'], passenc, form['name']]
 
-    sql2 = "SELECT * from users where id = LAST_INSERT_ID()"
+    sql2 = "SELECT * from user where id = LAST_INSERT_ID()"
 
     sps = [[sql, params], [sql2]]
 
@@ -60,7 +60,7 @@ def register():
 def login():
     form = request.get_json()
 
-    q = "SELECT * FROM users where email = %s"
+    q = "SELECT * FROM user where email = %s"
     params = [form['email']]
 
     with Mysql() as my:

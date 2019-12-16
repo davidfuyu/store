@@ -1,55 +1,10 @@
-#[ -f /usr/local/etc/bash_completion ] && . /usr/local/etc/bash_completion
-export PS1="\W $ "
-
-# Setting PATH for Python 3.7
-# The original version is saved in .bash_profile.pysave
-# PATH="/Library/Frameworks/Python.framework/Versions/3.7/bin:${PATH}"
-# export PATH
-
-# Setting PATH for Python 3.6
-# The original version is saved in .bash_profile.pysave
-PATH="/Library/Frameworks/Python.framework/Versions/3.6/bin:${PATH}"
-export PATH
-export PATH="/opt/Sencha/Cmd:$PATH"
-
-alias ll='ls -l'
-alias lal='ls -al'
-alias ss='svn status'
-alias si='svn info'
-alias slog='svn log | more'
-alias gs='git status'
-
-alias cfgoblin='cd ~/cf_goblin'
-alias cfwatch='cd ~/cf_goblin; sencha app watch'
-alias cfbuild='cd ~/cf_goblin; sencha app build production'
-alias cfcommit='cd ~/cf_goblin;svn rm $( svn status | sed -e '/^!/!d' -e 's/^!//' ); svn add * --force;svn commit  '
-
-alias flgoblin='cd ~/VirtualBox_Shared/project/fl_goblin'
-alias flwatch='cd ~/VirtualBox_Shared/project/fl_goblin/main/static; npm run watch'
-alias flbuild='cd ~/VirtualBox_Shared/project/fl_goblin/main/static; npm run build; flgoblin'
-alias flcommit='cd ~/VirtualBox_Shared/project/fl_goblin;svn rm $( svn status | sed -e '/^!/!d' -e 's/^!//' ); svn add * --force;svn commit  '
-alias fllink='ln -s ~/VirtualBox_Shared/project/shared/vrtx_utils; ln -s ~/VirtualBox_Shared/project/shared/vrtx_dbconn'
-
-alias devssh='ssh fuy@bos1dpythonl01.bos1.vrtx.com'
-alias devup="ssh fuy@bos1dpythonl01.bos1.vrtx.com 'workon fl_goblin; svn up'"
-
-alias vmssh='ssh -p 2223 pydev@localhost'
-alias vmstop="VBoxManage controlvm vxpydev36 poweroff"
-alias vmstart="VBoxManage controlvm vxpydev36 poweroff;VBoxManage startvm vxpydev36 --type headless;echo somepass | ssh -tt -p 2223 pydev@localhost 'sudo mount -t vboxsf resource /apps/resource; sudo mount -t vboxsf filestorage /apps/filestorage; sudo mount -t vboxsf project /apps/env36/project; sudo mount -t vboxsf goblin /apps_mount/eweb/goblin;'; chmod -R 777 ~/VirtualBox_Shared/filestorage;"
 
 alias p='cd ~/p'
 alias pssh='docker exec -it p_app_1 /bin/bash'
-alias pdb='docker exec -it p_db_1 /bin/bash'
+alias pdb='docker exec -it p_db_1 mysql -proot -Dgeneral'
 alias pup='cd ~/p; docker-compose up'
 alias pscratch='cd ~/p; docker container rm -f $(docker ps -aq); docker images -a | grep "latest" | awk "{print $3}" | xargs docker rmi; docker-compose up --build'
 alias pcleanapp='docker image prune -f; docker container stop p_app_1;  docker container rm p_app_1; docker-compose up --build'
 alias pcleandb='docker image prune -f; docker container stop p_db_1;  docker container rm p_db_1; docker-compose up --build'
 alias pwatch='cd ~/p/app/main/static;npm run watch'
 alias pbuild='cd ~/p/app/main/static;npm run build; p;'
-
-
-#alias mh='mount_smbfs //fuy@san1.vrtx.com/dfs/Users/fuy_migrated ~/h'
-
-#alias umsd='umount ~/goblin_cf_dev_sd'
-#alias umPRODSD='umount ~/cf_goblin_PROD_SD'
-

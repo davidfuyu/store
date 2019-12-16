@@ -1,11 +1,11 @@
 USE general;
 
-CREATE TABLE users (
-    id INT UNSIGNED NOT NULL AUTO_INCREMENT, 
+CREATE TABLE user (
+    user_id INT UNSIGNED NOT NULL AUTO_INCREMENT, 
     email VARCHAR(256) NOT NULL,
     password VARCHAR(256) NOT NULL,
     name VARCHAR(256) NOT NULL,
     redid VARCHAR(32),
     created_at TIMESTAMP NOT NULL DEFAULT NOW(),
-    PRIMARY KEY (id)
+    PRIMARY KEY (user_id)
 );
