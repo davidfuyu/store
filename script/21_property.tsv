@@ -5,7 +5,7 @@ Clumping Factor	Does the organism express a fibrin/fibrinogen binding protein (c
 DNA G+C Content (mol%)		float	General characteristics
 flagellum arrangement	Arrangement of lash-like appendage that protrudes from the cell body of certain prokaryotic and eukaryotic cells.	text	General characteristics
 Gram stain	The staining procedure differentiates organisms of the domain Bacteria according to cell wall structure. Gram-positive cells have a thick peptidoglycan layer and stain blue to purple. Gram-negative cells have a thin peptidoglycan layer and stain red to pink. 	Positive/Negative	General characteristics
-Growth at 37ºC	Determines if the organism can grow at 37°C	Yes/No	General characteristics
+Growth at 37C	Determines if the organism can grow at 37°C	Yes/No	General characteristics
 Habitat	Place where an organism or a biological population normally lives or occurs	text	General characteristics
 Hemolysis	This test provides information on what hemolytic enzymes a bacterium possesses. By providing a culture medium enriched with red blood cells, it is possible to determine whether a bacterium can destroy the cells and whether it can digest the hemoglobin inside.	Yes/No	General characteristics
 Hydrogen sulfide production	This test determines whether the microbe reduces sulfur-containing compounds to sulfides during the process of metabolism.	Yes/No	General characteristics
@@ -18,7 +18,7 @@ pH growth range		float	General characteristics
 Phylum	The primary subdivision of a taxonomic kingdom that groups together all classes of organisms that have the same body plan	text	General characteristics
 Pigmented	Is the organism colored	text	General characteristics
 Salinity growth range (%)		float	General characteristics
-﻿Strain	The genetic variant of the organism	text	General characteristics
+Strain	The genetic variant of the organism	text	General characteristics
 Swarming	Swarming involves differentiation of vegetative cells into hyper-flagellated swarm cells that undergo rapid and coordinated population migration across solid or semi-solid surfaces.	Yes/No	General characteristics
 Temperature growth range (Celsius)		float	General characteristics
 a-glucosidase		Positive/Negative	Enzyme activity
@@ -59,7 +59,7 @@ D-Melibiose		Positive/Negative	Growth with different C/N sources
 D-Raffinose		Positive/Negative	Growth with different C/N sources
 D-Salicin		Positive/Negative	Growth with different C/N sources
 D-Trehalose		Positive/Negative	Growth with different C/N sources
-Deoxyribonuclease, 25ºC 	The purpose is to see if the microbe can use DNA as a source of carbon and energy for growth. Use of DNA is accomplished by an enzyme called DNase.	Positive/Negative	Growth with different C/N sources
+Deoxyribonuclease, 25C 	The purpose is to see if the microbe can use DNA as a source of carbon and energy for growth. Use of DNA is accomplished by an enzyme called DNase.	Positive/Negative	Growth with different C/N sources
 Growth on inorganic nitrogen agar	This test determines whether the microbe can grow in a medium containing inorganic nitrogen agar.	Positive/Negative	Growth with different C/N sources
 Growth on Simmons citrate agar	This test determines whether the microbe can grow in a medium containing citrate agar.	Positive/Negative	Growth with different C/N sources
 Growth on Thiocitrate Bile Salts agar	Characteristic of Vibrios	Positive/Negative	Growth with different C/N sources

@@ -3,7 +3,7 @@ import os
 with open(os.path.join(os.path.dirname(__file__),"21_property.tsv"), "rU") as fin:
     records = fin.readlines()
 
-with open(os.path.join(os.path.dirname(__file__),"23_insert.sql"), "a+") as f:
+with open(os.path.join(os.path.dirname(__file__),"23_insert.sql"), "w+") as f:
     f.write("use general;\n")
     for row in records:
         attrs = row.strip().split("\t")
