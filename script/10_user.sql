@@ -7,5 +7,6 @@ CREATE TABLE user (
     name VARCHAR(256) NOT NULL,
     redid VARCHAR(32),
     created_at TIMESTAMP NOT NULL DEFAULT NOW(),
+    updated_at TIMESTAMP NOT NULL DEFAULT NOW(),
     PRIMARY KEY (user_id)
 );
