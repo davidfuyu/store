@@ -1,9 +1,10 @@
 from flask import Flask, redirect, jsonify, request
+from flask_bcrypt import Bcrypt
+from flask_jwt_extended import JWTManager, create_access_token, jwt_required, set_access_cookies
 import os
 import inspect
 from common.mysql_util import MysqlUtil as Mysql
-from flask_bcrypt import Bcrypt
-from flask_jwt_extended import JWTManager, create_access_token, jwt_required, set_access_cookies
+from common import utils
 
 
 app = Flask(__name__, static_url_path="")
@@ -20,6 +21,41 @@ jwt = JWTManager(app)
 @app.route('/')
 def index():
     return redirect('index.html')
+
+
+@app.route('/organism')
+def all_organism():
+    q = "SELECT * FROM organism"
+    with Mysql() as my:
+        records = my.fetch_all(q)
+
+    return utils.generate_success_response(records)
+
+
+@app.route('/organism-property/<int:organism_id>', methods=['GET'])
+def organism_property(organism_id):
+    q = f"""
+        SELECT * 
+        FROM organism_property
+        WHERE organism_id = {organism_id}
+    """
+    with Mysql() as my:
+        records = my.fetch_all(q)
+
+    return utils.generate_success_response(records)
+
+
+@app.route('/property')
+def all_property():
+    q = '''
+        SELECT p.*, pc.property_category_name, pt.property_type_name
+        FROM property p
+        JOIN property_category pc on p.property_category_id = pc.property_category_id
+        JOIN property_type pt on p.property_type_id = pt.property_type_id
+    '''
+    with Mysql() as my:
+        records = my.fetch_all(q)
+    return utils.generate_success_response(records)
 
 
 @app.route('/test')
@@ -53,7 +89,7 @@ def register():
     with Mysql() as my:
         result = my.execute_statements(sps)
 
-    return jsonify(result)
+    return utils.generate_success_response(result)
 
 
 @app.route('/user/login', methods=['POST'])
