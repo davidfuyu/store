@@ -27,6 +27,10 @@ export default {
       drawer: true,
       dialog: false
     };
+  },
+  beforeCreate() {
+    this.$store.dispatch("organism/fetch");
+    this.$store.dispatch("property/fetch");
   }
 };
 </script>
