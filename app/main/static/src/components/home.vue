@@ -1,5 +1,5 @@
 <template>
-  <v-container>This is the public page, login to continue.</v-container>
+  <v-container>Welcome to the database, login to continue.</v-container>
 </template>
 
 <script>

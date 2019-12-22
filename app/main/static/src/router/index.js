@@ -8,6 +8,7 @@ Vue.use(Router);
 import Login from "@/components/login.vue";
 import Register from "@/components/register.vue";
 import Dashboard from "@/components/dashboard.vue";
+import OP from "@/components/main-organism-property.vue";
 import Home from "@/components/home.vue";
 
 let router = new Router({
@@ -34,6 +35,19 @@ let router = new Router({
       meta: {
         requiresAuth: true
       }
+    },
+    {
+      path: "/organism-property/:id",
+      component: OP,
+      props(route) {
+        const props = { ...route.params };
+        props.id = parseInt(props.id);
+        return props
+      },
+    },
+    {
+      path: "*",
+      redirect: "/dashboard"
     }
   ]
 });

@@ -1,5 +1,7 @@
 <template>
   <v-app>
+    <navigation :drawer.sync="drawer"></navigation>
+
     <v-app-bar dense dark app clipped-left fixed>
       <v-app-bar-nav-icon @click.stop="drawer= !drawer"></v-app-bar-nav-icon>
       <v-toolbar-title style="width: 400px" class="ml-0 pl-3">
@@ -17,10 +19,11 @@
 </template>
 
 <script>
+import Navigation from "@/components/navigation.vue";
 export default {
   name: "App",
 
-  components: {},
+  components: {Navigation},
 
   data() {
     return {
