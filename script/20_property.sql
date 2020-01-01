@@ -2,6 +2,7 @@ USE general;
 
 CREATE TABLE property_category (
     property_category_id INT UNSIGNED NOT NULL AUTO_INCREMENT, 
+    property_category_order INT UNSIGNED NOT NULL, 
     property_category_name VARCHAR(64) NOT NULL,
     created_at TIMESTAMP NOT NULL DEFAULT NOW(),
     updated_at TIMESTAMP NOT NULL DEFAULT NOW(),
@@ -29,11 +30,11 @@ CREATE TABLE property (
     FOREIGN KEY(property_category_id) REFERENCES property_category (property_category_id) 
 );
 
-INSERT INTO property_category (property_category_name) VALUES 
-('General characteristics'), 
-('Enzyme activity'), 
-('Growth with different C/N sources'), 
-('Fermentation');
+INSERT INTO property_category (property_category_name, property_category_order) VALUES 
+('General characteristics', 10), 
+('Enzyme activity', 20), 
+('Growth with different C/N sources', 30), 
+('Fermentation', 40);
 
 INSERT INTO property_type (property_type_name) VALUES 
 ('positive/negative'),

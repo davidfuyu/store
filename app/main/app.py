@@ -32,12 +32,26 @@ def all_organism():
     return utils.generate_success_response(records)
 
 
+@app.route('/organism/<int:organism_id>', methods=['GET'])
+def get_organism(organism_id):
+    q = f"SELECT * FROM organism WHERE organism_id = {organism_id} LIMIT 1"
+    with Mysql() as my:
+        records = my.fetch_one(q)
+
+    return utils.generate_success_response(records)
+
+
 @app.route('/organism-property/<int:organism_id>', methods=['GET'])
 def organism_property(organism_id):
     q = f"""
-        SELECT * 
-        FROM organism_property
-        WHERE organism_id = {organism_id}
+        SELECT o.name
+            , op.property_id
+            , p.property_name
+            , value
+        FROM organism_property op
+        JOIN organism o ON op.organism_id = o.organism_id
+        JOIN property p ON op.property_id = p.property_id
+        WHERE op.organism_id = {organism_id}
     """
     with Mysql() as my:
         records = my.fetch_all(q)
@@ -48,7 +62,7 @@ def organism_property(organism_id):
 @app.route('/property')
 def all_property():
     q = '''
-        SELECT p.*, pc.property_category_name, pt.property_type_name
+        SELECT p.*, pc.property_category_name, pc.property_category_order, pt.property_type_name
         FROM property p
         JOIN property_category pc on p.property_category_id = pc.property_category_id
         JOIN property_type pt on p.property_type_id = pt.property_type_id
