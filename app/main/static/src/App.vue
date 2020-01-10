@@ -34,6 +34,7 @@ export default {
   beforeCreate() {
     this.$store.dispatch("organism/fetch");
     this.$store.dispatch("property/fetch");
+    this.$store.dispatch("category/fetch");
   }
 };
 </script>

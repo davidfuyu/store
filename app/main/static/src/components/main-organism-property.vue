@@ -1,15 +1,42 @@
 <template>
   <v-container fluid>
-    <div :hidden="!displayContent">
+    <div>
       <b style="font-size:2em">{{name}}</b>
-      <!-- <div v-for="(c, i) in categories" :key="i">
-        <b style="font-size:1.5em">{{c}}</b>
-        <div v-for="(p,j) in categorizedProperty[c]" :key="j">
-          {{p['property_name']}}
-          <span v-show="op[p['property_id']]">{{op[p['property_id']]['value']}}</span>
+      <v-btn title="Edit" @click.prevent.stop="enableEdit = !enableEdit">edit</v-btn>
+      <div v-if="enableEdit">
+        <v-form>
+          <div v-for="(c, i) in categories" :key="i">
+            <b style="font-size:1.5em">{{c.property_category_name}}</b>
+            <div v-for="(p,j) in categorizedProperties[c.property_category_name]" :key="j">
+              <v-container>
+                <v-row>
+                  <v-col cols="5">{{p['property_name']}}:</v-col>
+                  <v-col cols="5">
+                    <v-text-field
+                      v-model="formField[p['property_id']]['value']"
+                      class="text-xs"
+                      solo
+                    ></v-text-field>
+                  </v-col>
+                </v-row>
+              </v-container>
+            </div>
+          </div>
+        </v-form>
+      </div>
+      <div v-else>
+        <div v-for="(c, i) in categories" :key="i">
+          <b style="font-size:1.5em">{{c.property_category_name}}</b>
+          <div v-for="(p,j) in categorizedProperties[c.property_category_name]" :key="j">
+            <div v-if="keyed[p['property_id']]">
+              {{p['property_name']}}:{{keyed[p['property_id']]['value']}}
+              <!-- <span v-show="op[p['property_id']]">{{op[p['property_id']]['value']}}</span> -->
+            </div>
+          </div>
         </div>
-      </div>-->
-      <v-data-table :headers="headers" :items="op" :hide-default-footer="true"></v-data-table>
+      </div>
+
+      <!-- <v-data-table :headers="headers" :items="op" :hide-default-footer="true"></v-data-table> -->
     </div>
   </v-container>
 </template>
@@ -21,13 +48,9 @@ import { mapState } from "vuex";
 export default {
   data() {
     return {
-      displayContent: false,
+      enableEdit: false,
       name: "",
-      // op: {
-      //   type: Object,
-      //   default: {}
-      // },
-      op: [],
+      keyed: {},
       headers: [
         {
           text: "Property",
@@ -45,7 +68,22 @@ export default {
     };
   },
   computed: {
-    ...mapState("property", ["property", "categories", "categorizedProperty"])
+    ...mapState("category", ["categories"]),
+    ...mapState("property", ["properties", "categorizedProperties"]),
+    formField: function() {
+      let form = {};
+      for (let i = 0; i < this.properties.length; i++) {
+        let p = this.properties[i]["property_id"];
+        if (this.keyed[p]) {
+          form[p] = this.keyed[p];
+        } else {
+          form[p] = {};
+          form[p]["property_id"] = p;
+          form[p]["value"] = null;
+        }
+      }
+      return form;
+    }
   },
   created() {
     if (!this.$route.params.id) return;
@@ -54,24 +92,16 @@ export default {
       if (response.data.success) {
         let records = response.data.records;
         this.name = records[0]["name"];
-        // for (let i = 0; i < records.length; i++) {
-        //   this.op[records[i]["property_id"]] = records[i];
-        // }
-        this.op = records;
-        this.displayContent = true;
+        for (let i = 0; i < records.length; i++) {
+          let p = records[i]["property_id"];
+          this.keyed[p] = records[i];
+        }
       }
     });
-  // },
-  // watch: {
-  //   property: "calculateDisplay",
-  //   name: "calculateDisplay"
-  // },
-  // methods: {
-  //   calculateDisplay: function() {
-  //     if (this.categorizedProperty && this.categories && this.name) {
-  //       this.displayContent = true;
-  //     }
-  //   }
+  },
+  methods: {
+    buildForm: function() {
+    }
   }
 };
 </script>

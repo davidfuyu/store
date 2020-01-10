@@ -23,6 +23,14 @@ def index():
     return redirect('index.html')
 
 
+@app.route('/property-category')
+def all_category():
+    q = ''' SELECT * FROM property_category ORDER BY property_category_order'''
+    with Mysql() as my:
+        records = my.fetch_all(q)
+    return utils.generate_success_response(records)
+
+
 @app.route('/organism')
 def all_organism():
     q = "SELECT * FROM organism"
