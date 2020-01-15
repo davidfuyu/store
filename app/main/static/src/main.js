@@ -11,6 +11,7 @@ import api from "@/plugins/api.js";
 Vue.use(api, { axios });
 Vue.prototype.$http = axios;
 
+import '@fortawesome/fontawesome-free/css/all.css';
 
 import DialogLoading from "@/components/dialog-loading.vue";
 Vue.component("dialog-loading", DialogLoading);

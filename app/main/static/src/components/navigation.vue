@@ -68,12 +68,11 @@ export default {
           childOrganisms.push({
             text: o["name"],
             to: "/organism-property/" + o["organism_id"],
-            icon: "fas fa-list"
           });
         }
         tree.push({
           text: "Organisms",
-          icon: "fas fa-vial",
+          icon: "fas fa-microscope",
           model: false,
           children: childOrganisms
         });

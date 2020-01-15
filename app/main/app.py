@@ -3,6 +3,7 @@ from flask_bcrypt import Bcrypt
 from flask_jwt_extended import JWTManager, create_access_token, jwt_required, set_access_cookies
 import os
 import inspect
+import json
 from common.mysql_util import MysqlUtil as Mysql
 from common import utils
 
@@ -23,19 +24,21 @@ def index():
     return redirect('index.html')
 
 
-@app.route('/property-category')
+@app.route('/category')
 def all_category():
-    q = ''' SELECT * FROM property_category ORDER BY property_category_order'''
+    q = "SELECT * FROM property_category ORDER BY property_category_order"
+
     with Mysql() as my:
-        records = my.fetch_all(q)
+        records = my.fetch(q)
     return utils.generate_success_response(records)
 
 
 @app.route('/organism')
 def all_organism():
     q = "SELECT * FROM organism"
+
     with Mysql() as my:
-        records = my.fetch_all(q)
+        records = my.fetch(q)
 
     return utils.generate_success_response(records)
 
@@ -43,16 +46,53 @@ def all_organism():
 @app.route('/organism/<int:organism_id>', methods=['GET'])
 def get_organism(organism_id):
     q = f"SELECT * FROM organism WHERE organism_id = {organism_id} LIMIT 1"
+
     with Mysql() as my:
-        records = my.fetch_one(q)
+        records = my.fetchone(q)
 
     return utils.generate_success_response(records)
+
+
+@app.route('/organism', methods=['POST'])
+def set_organism():
+    form = request.form.to_dict()
+
+    if form['organism_id']:
+        q1 = "UPDATE organism SET name = %s WHERE organism_id = %s"
+        p1= [form["name"], form["organism_id"]]
+        # assemble sql_params array
+        qp1 = [q1, p1]
+
+        q2 = "select * from organism where organism_id = %s"
+        p2= [form["organism_id"]]
+        qp2 = [q2, p2]
+
+        qps = [qp1, qp2]
+
+        with Mysql() as my:
+            record = my.execute_statements(qps)
+
+        return utils.generate_success_response(record)
+    else:
+        q1 = f"INSERT INTO organism (name) VALUES (%s);"
+        p1= [form["name"]]
+        qp1 = [q1, p1]
+
+        qp2 = ['select * from organism where organism_id = LAST_INSERT_ID()']
+
+        qps = [qp1, qp2]
+
+        with Mysql() as my:
+            record = my.execute_statements(qps)
+
+        return utils.generate_success_response(record)
 
 
 @app.route('/organism-property/<int:organism_id>', methods=['GET'])
 def organism_property(organism_id):
     q = f"""
         SELECT o.name
+            , op.organism_property_id
             , op.property_id
             , p.property_name
             , value
@@ -62,7 +102,36 @@ def organism_property(organism_id):
         WHERE op.organism_id = {organism_id}
     """
     with Mysql() as my:
-        records = my.fetch_all(q)
+        records = my.fetch(q)
+
+    return utils.generate_success_response(records)
+
+
+@app.route('/organism-property/<int:organism_id>', methods=['POST'])
+def set_organism_property(organism_id):
+    form = request.get_json()
+
+    for v in form.values():
+        if (v['organism_property_id']):
+            q1 = "UPDATE organism_property SET value = %s WHERE organism_property_id = %s"
+            p1= [v["value"], v["organism_property_id"]]
+
+            with Mysql() as my:
+                my.execute(q1, p1)
+
+    q = f"""
+        SELECT o.name
+            , op.organism_property_id
+            , op.property_id
+            , p.property_name
+            , value
+        FROM organism_property op
+        JOIN organism o ON op.organism_id = o.organism_id
+        JOIN property p ON op.property_id = p.property_id
+        WHERE op.organism_id = {organism_id}
+    """
+    with Mysql() as my:
+        records = my.fetch(q)
 
     return utils.generate_success_response(records)
 
@@ -76,7 +145,7 @@ def all_property():
         JOIN property_type pt on p.property_type_id = pt.property_type_id
     '''
     with Mysql() as my:
-        records = my.fetch_all(q)
+        records = my.fetch(q)
     return utils.generate_success_response(records)
 
 
@@ -89,7 +158,7 @@ def test():
 @jwt_required
 def dbtest():
     with Mysql() as my:
-        records = my.fetch_all('SELECT * FROM z_test')
+        records = my.fetch('SELECT * FROM z_test')
     return jsonify(records)
 
 
@@ -122,7 +191,7 @@ def login():
     params = [form['email']]
 
     with Mysql() as my:
-        record = my.fetch_one(q, params)
+        record = my.fetchone(q, params)
 
     if not bcrypt.check_password_hash(record['password'], form['password']):
         return jsonify({"error": "Invalid username and password"})

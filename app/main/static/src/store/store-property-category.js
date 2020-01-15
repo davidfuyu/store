@@ -7,7 +7,7 @@ export const category = {
   },
   actions: {
     fetch({ commit }) {
-      axios.get("/property-category").then(
+      axios.get("/category").then(
         response => {
           commit("set", response.data.records);
         }, err => {
