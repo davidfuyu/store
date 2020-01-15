@@ -2,6 +2,7 @@
   <v-container fluid>
     <div>
       <b style="font-size:2em">{{name}}</b>
+      <v-divider></v-divider>
       <v-btn title="Edit" @click="onClickEditButton" :hidden="isEdit">Edit</v-btn>
       <v-btn title="Cancel" @click="onClickCancelButton" :hidden="!isEdit">Cancel</v-btn>
       <v-btn title="Save" @click="onClickSaveButton" :hidden="!showSaveButton">Save</v-btn>
@@ -68,6 +69,7 @@ export default {
           form[p] = JSON.parse(JSON.stringify(this.keyed[p]));
         } else {
           form[p] = {};
+          form[p]["organism_id"] = this.organismId;
           form[p]["property_id"] = p;
           form[p]["value"] = null;
         }
@@ -114,13 +116,13 @@ export default {
         .post(`/organism-property/${this.organismId}`, todo)
         .then(response => {
           if (response.data.success) {
-            // let records = response.data.records;
-            // for (let i = 0; i < records.length; i++) {
-            //   let p = records[i]["property_id"];
-            //   this.keyed[p] = records[i];
-            // }
-            console.log(response.data);
+            let records = response.data.records;
+            for (let i = 0; i < records.length; i++) {
+              let p = records[i]["property_id"];
+              this.keyed[p] = records[i];
+            }
           }
+          this.isEdit = false;
         });
     }
   }

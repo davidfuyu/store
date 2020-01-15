@@ -59,12 +59,12 @@ def set_organism():
 
     if form['organism_id']:
         q1 = "UPDATE organism SET name = %s WHERE organism_id = %s"
-        p1= [form["name"], form["organism_id"]]
+        p1 = [form["name"], form["organism_id"]]
         # assemble sql_params array
         qp1 = [q1, p1]
 
         q2 = "select * from organism where organism_id = %s"
-        p2= [form["organism_id"]]
+        p2 = [form["organism_id"]]
         qp2 = [q2, p2]
 
         qps = [qp1, qp2]
@@ -75,7 +75,7 @@ def set_organism():
         return utils.generate_success_response(record)
     else:
         q1 = f"INSERT INTO organism (name) VALUES (%s);"
-        p1= [form["name"]]
+        p1 = [form["name"]]
         qp1 = [q1, p1]
 
         qp2 = ['select * from organism where organism_id = LAST_INSERT_ID()']
@@ -111,10 +111,21 @@ def organism_property(organism_id):
 def set_organism_property(organism_id):
     form = request.get_json()
 
-    for v in form.values():
-        if (v['organism_property_id']):
+    for k in form:
+        v = form[k]
+        if ('organism_property_id' in v):
             q1 = "UPDATE organism_property SET value = %s WHERE organism_property_id = %s"
-            p1= [v["value"], v["organism_property_id"]]
+            p1 = [v["value"], v['organism_property_id']]
+
+            with Mysql() as my:
+                my.execute(q1, p1)
+        else:
+            q1 = f"""INSERT INTO organism_property (
+                    organism_id
+                    , property_id
+                    , value
+                ) VALUES (%s, %s, %s)"""
+            p1 = [v["organism_id"], v["property_id"], v["value"]]
 
             with Mysql() as my:
                 my.execute(q1, p1)
