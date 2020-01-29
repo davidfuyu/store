@@ -10,3 +10,5 @@ CREATE TABLE user (
     updated_at TIMESTAMP NOT NULL DEFAULT NOW(),
     PRIMARY KEY (user_id)
 );
+
+INSERT INTO user(email, password, name) VALUES ('a@b.c', '$2b$12$zzx8rKAxKe8zlmWfuxqcZeTA4cR5c3Z4e6cEgfSDgVGeJT5kEtFKS', 'a@b.c');

@@ -13,12 +13,15 @@
             <div v-for="(p,j) in categorizedProperties[c.property_category_name]" :key="j">
               <v-container>
                 <v-row>
-                  <v-col cols="5">{{p['property_name']}}:</v-col>
+                  <v-col cols="5">
+                    <b>{{p['property_name']}}</b>:
+                  </v-col>
                   <v-col cols="5">
                     <v-text-field
                       v-model="formField[p['property_id']]['value']"
                       class="text-xs"
                       solo
+                      hide-details
                     ></v-text-field>
                   </v-col>
                 </v-row>
@@ -31,9 +34,10 @@
         <div v-for="(c, i) in categories" :key="i">
           <b style="font-size:1.5em">{{c.property_category_name}}</b>
           <div v-for="(p,j) in categorizedProperties[c.property_category_name]" :key="j">
-            <div
-              v-if="keyed[p['property_id']]"
-            >{{p['property_name']}}:{{keyed[p['property_id']]['value']}}</div>
+            <div v-if="keyed[p['property_id']]">
+              <b style="margin-left:40px">{{p['property_name']}}</b>
+              {{keyed[p['property_id']]['value']}}
+            </div>
           </div>
         </div>
       </div>

@@ -20,4 +20,6 @@ with open(os.path.join(os.path.dirname(__file__), "43_insert_test.sql"), "w+") a
             if value and value != '' and i not in (6, 7, 9, 10, 67, 71):
                 property_id = f"(SELECT property_id from property where lower(property_name) = lower('{header[i]}'))"
                 q += f"INSERT INTO organism_property (organism_id, property_id, value) VALUES ({organism_id}, {property_id}, '{value}');\n"
+                q += f"    INSERT INTO organism_property_log (organism_property_id, status_id, user_id) VALUES(LAST_INSERT_ID(), 1, 1);\n"
+            
         f.write(q)

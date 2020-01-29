@@ -1,6 +1,6 @@
 from flask import Flask, redirect, jsonify, request
 from flask_bcrypt import Bcrypt
-from flask_jwt_extended import JWTManager, create_access_token, jwt_required, set_access_cookies
+from flask_jwt_extended import JWTManager, create_access_token, jwt_required, set_access_cookies, get_jwt_identity
 import os
 import inspect
 import json
@@ -24,16 +24,7 @@ def index():
     return redirect('index.html')
 
 
-@app.route('/category')
-def all_category():
-    q = "SELECT * FROM property_category ORDER BY property_category_order"
-
-    with Mysql() as my:
-        records = my.fetch(q)
-    return utils.generate_success_response(records)
-
-
-@app.route('/organism')
+@app.route('/organism', methods=['GET'])
 def all_organism():
     q = "SELECT * FROM organism"
 
@@ -96,9 +87,18 @@ def organism_property(organism_id):
             , op.property_id
             , p.property_name
             , value
+            , opl.user_id
+            , s.status_name
         FROM organism_property op
         JOIN organism o ON op.organism_id = o.organism_id
         JOIN property p ON op.property_id = p.property_id
+        JOIN organism_property_log opl on opl.organism_property_log_id = (
+            SELECT MAX(organism_property_log_id) 
+            FROM organism_property_log opl2
+            WHERE opl2.organism_property_id = opl.organism_property_id
+            GROUP BY opl2.organism_property_id
+            )
+        JOIN status s ON opl.status_id = s.status_id
         WHERE op.organism_id = {organism_id}
     """
     with Mysql() as my:
@@ -108,17 +108,40 @@ def organism_property(organism_id):
 
 
 @app.route('/organism-property/<int:organism_id>', methods=['POST'])
+# @jwt_required
 def set_organism_property(organism_id):
+    # token = get_jwt_identity()
+    # user_id = token['user_id']
+
+    user_id = 1
+
     form = request.get_json()
 
     for k in form:
         v = form[k]
+        sps = []
         if ('organism_property_id' in v):
+            opid = v['organism_property_id']
             q1 = "UPDATE organism_property SET value = %s WHERE organism_property_id = %s"
-            p1 = [v["value"], v['organism_property_id']]
+            p1 = [v["value"], opid]
 
+            q2 = f"""INSERT INTO organism_property_log(
+                organism_property_id
+                , user_id
+                , status_id
+                , created_at
+            ) VALUES (
+                opid
+                , {user_id}
+                , (SELECT status_id FROM status WHERE status_name = 'updated' LIMIT 1)
+                , NOW()
+            )
+            """
+
+            sps.append([q1, p1])
+            sps.append([q2])
             with Mysql() as my:
-                my.execute(q1, p1)
+                my.execute_statements(sps)
         else:
             q1 = f"""INSERT INTO organism_property (
                     organism_id
@@ -127,8 +150,23 @@ def set_organism_property(organism_id):
                 ) VALUES (%s, %s, %s)"""
             p1 = [v["organism_id"], v["property_id"], v["value"]]
 
+            q2 = f"""INSERT INTO organism_property_log(
+                organism_property_id
+                , user_id
+                , status_id
+                , created_at
+            ) VALUES (
+                LAST_INSERT_ID()
+                , {user_id}
+                , (SELECT status_id FROM status WHERE status_name = 'initial' LIMIT 1)
+                , NOW()
+            )
+            """
+
+            sps.append([q1, p1])
+            sps.append([q2])
             with Mysql() as my:
-                my.execute(q1, p1)
+                my.execute_statements(sps)
 
     q = f"""
         SELECT o.name
@@ -147,6 +185,15 @@ def set_organism_property(organism_id):
     return utils.generate_success_response(records)
 
 
+@app.route('/category', methods=['GET'])
+def all_category():
+    q = "SELECT * FROM property_category ORDER BY property_category_order"
+
+    with Mysql() as my:
+        records = my.fetch(q)
+    return utils.generate_success_response(records)
+
+
 @app.route('/property')
 def all_property():
     q = '''
@@ -160,31 +207,18 @@ def all_property():
     return utils.generate_success_response(records)
 
 
-@app.route('/test')
-def test():
-    return jsonify({'success': True})
-
-
-@app.route('/testdb')
-@jwt_required
-def dbtest():
-    with Mysql() as my:
-        records = my.fetch('SELECT * FROM z_test')
-    return jsonify(records)
-
-
-@app.route('/user/register', methods=['POST'])
+@app.route("/user/register", methods=["POST"])
 def register():
     form = request.get_json()
 
-    sql = '''
-        INSERT INTO user ( email, password , name , redid) 
-        VALUES ( %s , %s , %s , %s)
-    '''
-    passenc = bcrypt.generate_password_hash(form['password']).decode('utf-8')
-    params = [form['email'], passenc, form['name']]
+    sql = """
+        INSERT INTO user ( email, password , name) 
+        VALUES ( %s , %s , %s)
+    """
+    passenc = bcrypt.generate_password_hash(form["password"]).decode("utf-8")
+    params = [form["email"], passenc, form["name"]]
 
-    sql2 = "SELECT * from user where id = LAST_INSERT_ID()"
+    sql2 = "SELECT * from user where user_id = LAST_INSERT_ID()"
 
     sps = [[sql, params], [sql2]]
 
@@ -209,6 +243,7 @@ def login():
 
     access_token = create_access_token(
         identity={
+            'user_id': record['user_id'],
             'name': record['name'],
             'email': record['email']
         })
@@ -217,6 +252,26 @@ def login():
     resp = jsonify({'success': True})
     set_access_cookies(resp, access_token)
     return resp, 200
+
+
+@app.route('/test', methods=['GET'])
+def test():
+    return jsonify({'success': True})
+
+
+@app.route('/testdb', methods=['GET'])
+@jwt_required
+def dbtest():
+    with Mysql() as my:
+        records = my.fetch('SELECT * FROM z_test')
+    return jsonify(records)
+
+
+@app.route('/testjwt', methods=['GET'])
+def testjwt():
+    # Access the identity of the current user with get_jwt_identity
+    current_user = get_jwt_identity()
+    return jsonify(current_user)
 
 
 if __name__ == '__main__':
