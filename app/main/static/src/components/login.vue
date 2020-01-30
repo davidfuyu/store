@@ -54,7 +54,7 @@ export default {
   },
   computed: {},
   methods: {
-    ...mapMutations("userProfile", ["userLogin"]),
+    ...mapMutations("user", ["userLogin"]),
     login() {
       this.$http
         .post("/user/login", {

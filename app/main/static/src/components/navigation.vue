@@ -48,7 +48,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters("userProfile", ["isAdmin"]),
+    ...mapGetters("user", ["isAdmin"]),
     ...mapGetters("organism", { organisms: "organism" }),
     navigationTree: function() {
       let tree = [

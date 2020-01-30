@@ -1,6 +1,6 @@
 import Vue from "vue";
 import Vuex from "vuex";
-import { userProfile } from "./store-user";
+import { user} from "./store-user";
 import { organism } from "./store-organism";
 import { property } from "./store-property";
 import { category } from "./store-property-category";
@@ -12,6 +12,6 @@ export default new Vuex.Store({
     organism,
     property,
     category,
-    userProfile,
+    user,
   }
 });

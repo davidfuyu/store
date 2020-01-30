@@ -1,12 +1,12 @@
 <template>
   <v-container fluid>
-    <div>
+    <div :hidden="!show">
       <b style="font-size:2em">{{name}}</b>
       <v-divider></v-divider>
-      <v-btn title="Edit" @click="onClickEditButton" :hidden="isEdit">Edit</v-btn>
-      <v-btn title="Cancel" @click="onClickCancelButton" :hidden="!isEdit">Cancel</v-btn>
+      <v-btn title="Edit" @click="onClickEditButton" :hidden="isEditing">Edit</v-btn>
+      <v-btn title="Cancel" @click="onClickCancelButton" :hidden="!isEditing">Cancel</v-btn>
       <v-btn title="Save" @click="onClickSaveButton" :hidden="!showSaveButton">Save</v-btn>
-      <div v-if="isEdit">
+      <div v-if="isEditing">
         <v-form>
           <div v-for="(c, i) in categories" :key="i">
             <b style="font-size:1.5em">{{c.property_category_name}}</b>
@@ -30,7 +30,7 @@
           </div>
         </v-form>
       </div>
-      <div v-else>
+      <div v-else :hidden="!show">
         <div v-for="(c, i) in categories" :key="i">
           <b style="font-size:1.5em">{{c.property_category_name}}</b>
           <div v-for="(p,j) in categorizedProperties[c.property_category_name]" :key="j">
@@ -53,7 +53,8 @@ import { mapState } from "vuex";
 export default {
   data() {
     return {
-      isEdit: false,
+      isEditing: false,
+      show: false,
       organismId: 0,
       name: "",
       keyed: {}
@@ -63,7 +64,7 @@ export default {
     ...mapState("category", ["categories"]),
     ...mapState("property", ["properties", "categorizedProperties"]),
     showSaveButton: function() {
-      return this.isEdit;
+      return this.isEditing;
     },
     formField: function() {
       let form = {};
@@ -93,15 +94,16 @@ export default {
           let p = records[i]["property_id"];
           this.keyed[p] = records[i];
         }
+        this.show= true;
       }
     });
   },
   methods: {
     onClickEditButton: function() {
-      this.isEdit = true;
+      this.isEditing = true;
     },
     onClickCancelButton: function() {
-      this.isEdit = false;
+      this.isEditing = false;
     },
     onClickSaveButton: function() {
       let todo = {};
@@ -126,7 +128,7 @@ export default {
               this.keyed[p] = records[i];
             }
           }
-          this.isEdit = false;
+          this.isEditing = false;
         });
     }
   }

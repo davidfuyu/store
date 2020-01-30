@@ -1,7 +1,7 @@
 import Vue from "vue";
 import Router from "vue-router";
 
-import { userProfile } from "@/store/store-user.js";
+import { user} from "@/store/store-user.js";
 
 Vue.use(Router);
 
@@ -44,6 +44,9 @@ let router = new Router({
         props.id = parseInt(props.id);
         return props
       },
+      meta: {
+        requiresAuth: true
+      }
     },
     {
       path: "*",
@@ -54,7 +57,7 @@ let router = new Router({
 
 router.beforeEach((to, from, next) => {
   if (to.matched.some(record => record.meta.requiresAuth)) {
-    if (userProfile.state.isAuthenticated) {
+    if (user.state.isAuthenticated) {
       next()
     } else {
       next({

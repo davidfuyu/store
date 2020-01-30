@@ -1,4 +1,4 @@
-export const userProfile = {
+export const user= {
   namespaced: true,
   state: {
     isAuthenticated: false,
