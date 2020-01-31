@@ -3,9 +3,32 @@
     <div :hidden="!show">
       <b style="font-size:2em">{{name}}</b>
       <v-divider></v-divider>
-      <v-btn title="Edit" @click="onClickEditButton" :hidden="isEditing">Edit</v-btn>
-      <v-btn title="Cancel" @click="onClickCancelButton" :hidden="!isEditing">Cancel</v-btn>
-      <v-btn title="Save" @click="onClickSaveButton" :hidden="!showSaveButton">Save</v-btn>
+      <v-btn title="Edit" @click="onClickEditButton" :hidden="isEditing || isVerifying">Edit</v-btn>
+      <v-btn
+        title="Cancel"
+        @click="onClickEditCancelButton"
+        :hidden="!isEditing || isVerifying"
+      >Cancel</v-btn>
+      <v-btn
+        title="Save"
+        @click="onClickEditSavelButton"
+        :hidden="!showSaveButton || isVerifying"
+      >Save</v-btn>
+
+      <v-divider></v-divider>
+
+      <v-btn title="Verify" @click="onClickVerifyButton" :hidden="isVerifying || isEditing">Verify</v-btn>
+      <v-btn
+        title="Cancel"
+        @click="onClickVerifyCancelButton"
+        :hidden="!isVerifying || isEditing"
+      >Cancel</v-btn>
+      <v-btn
+        title="Confirm"
+        @click="onClickVerifyConfirmButton"
+        :hidden="!isVerifying || isEditing"
+      >Confirm</v-btn>
+
       <div v-if="isEditing">
         <v-form>
           <div v-for="(c, i) in categories" :key="i">
@@ -54,6 +77,7 @@ export default {
   data() {
     return {
       isEditing: false,
+      isVerifying: false,
       show: false,
       organismId: 0,
       name: "",
@@ -94,7 +118,7 @@ export default {
           let p = records[i]["property_id"];
           this.keyed[p] = records[i];
         }
-        this.show= true;
+        this.show = true;
       }
     });
   },
@@ -102,10 +126,10 @@ export default {
     onClickEditButton: function() {
       this.isEditing = true;
     },
-    onClickCancelButton: function() {
+    onClickEditCancelButton: function() {
       this.isEditing = false;
     },
-    onClickSaveButton: function() {
+    onClickEditSavelButton: function() {
       let todo = {};
       for (let i = 0; i < this.properties.length; i++) {
         let p = this.properties[i]["property_id"];
@@ -130,6 +154,15 @@ export default {
           }
           this.isEditing = false;
         });
+    },
+    onClickVerifyButton: function() {
+      this.isVerifying = true;
+    },
+    onClickVerifyCancelButton: function() {
+      this.isVerifying = false;
+    },
+    onClickVerifyConfirmButton: function() {
+      this.isVerifying = false;
     }
   }
 };
