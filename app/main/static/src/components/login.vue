@@ -63,7 +63,7 @@ export default {
         })
         .then(res => {
           if (res.data.success) {
-            this.userLogin();
+            this.userLogin(res.data.records);
             this.showDialog = false;
             this.$router.push(this.$route.query.redirect || "/");
           }

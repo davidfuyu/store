@@ -80,6 +80,7 @@ def set_organism():
 
 
 @app.route('/organism-property/<int:organism_id>', methods=['GET'])
+@jwt_required
 def organism_property(organism_id):
     q = f"""
         SELECT o.name
@@ -108,12 +109,10 @@ def organism_property(organism_id):
 
 
 @app.route('/organism-property/<int:organism_id>', methods=['POST'])
-# @jwt_required
+@jwt_required
 def set_organism_property(organism_id):
-    # token = get_jwt_identity()
-    # user_id = token['user_id']
-
-    user_id = 1
+    token = get_jwt_identity()
+    user_id = token['user_id']
 
     form = request.get_json()
 
@@ -158,7 +157,7 @@ def set_organism_property(organism_id):
             ) VALUES (
                 LAST_INSERT_ID()
                 , {user_id}
-                , (SELECT status_id FROM status WHERE status_name = 'initial' LIMIT 1)
+                , (SELECT status_id FROM status WHERE status_name = 'input' LIMIT 1)
                 , NOW()
             )
             """
@@ -183,6 +182,34 @@ def set_organism_property(organism_id):
         records = my.fetch(q)
 
     return utils.generate_success_response(records)
+
+
+@app.route('/organism-property/<int:organism_id>/verify', methods=['POST'])
+@jwt_required
+def set_organism_property_log(organism_id):
+    token = get_jwt_identity()
+    user_id = token['user_id']
+
+    form = request.get_json()
+
+    for row in form:
+        opid = row['organism_property_id']
+
+        q = f"""INSERT INTO organism_property_log(
+            organism_property_id
+            , user_id
+            , status_id
+        ) VALUES (
+            {opid}
+            , {user_id}
+            , (SELECT status_id FROM status WHERE status_name = 'verified' LIMIT 1)
+        )
+        """
+
+        with Mysql() as my:
+            my.execute(q)
+    
+    return utils.generate_success_response()
 
 
 @app.route('/category', methods=['GET'])
@@ -248,8 +275,19 @@ def login():
             'email': record['email']
         })
 
+    result = {
+        'success': True,
+        'records': {
+            'user_id': record['user_id'],
+            'name': record['name'],
+            'email': record['email']
+        }
+    }
+
+    # resp = jsonify({'success': True})
+    resp = jsonify(result)
+
     # Set the JWT cookies in the response
-    resp = jsonify({'success': True})
     set_access_cookies(resp, access_token)
     return resp, 200
 
@@ -268,6 +306,7 @@ def dbtest():
 
 
 @app.route('/testjwt', methods=['GET'])
+@jwt_required
 def testjwt():
     # Access the identity of the current user with get_jwt_identity
     current_user = get_jwt_identity()

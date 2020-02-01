@@ -57,11 +57,7 @@
           <div v-for="(c, i) in categories" :key="i">
             <b style="font-size:1.5em">{{c.property_category_name}}</b>
             <div v-for="(p,j) in categorizedProperties[c.property_category_name]" :key="j">
-              <!-- <div v-if="verifyContent[p['property_id']]">
-                <b style="margin-left:40px">{{p['property_name']}}</b>
-                {{verifyContent[p['property_id']]['value']}}
-              </div>-->
-              <div v-if="keyed[p['property_id']]">
+              <div v-if="keyed[p['property_id']] && ifUserCanVerify(keyed[p['property_id']])">
                 <v-checkbox
                   style="margin-left:40px"
                   v-model="verifyContent"
@@ -92,7 +88,7 @@
 <script>
 /* eslint-disable */
 import axios from "axios";
-import { mapState } from "vuex";
+import { mapState, mapGetters } from "vuex";
 
 export default {
   data() {
@@ -112,6 +108,7 @@ export default {
   computed: {
     ...mapState("category", ["categories"]),
     ...mapState("property", ["properties", "categorizedProperties"]),
+    ...mapGetters("user", ["userId"]),
     showEditSavelButton: function() {
       return this.isEditing;
     },
@@ -189,8 +186,20 @@ export default {
       this.isVerifying = false;
     },
     onClickVerifyConfirmButton: function() {
-      this.isVerifying = false;
-      this.verifyContent = [];
+      axios
+        .post(
+          `/organism-property/${this.organismId}/verify`,
+          this.verifyContent
+        )
+        .then(response => {
+          this.isVerifying = false;
+          this.verifyContent = [];
+        });
+    },
+    ifUserCanVerify: function(op) {
+      if (op["status_name"] == "verified") return false;
+      if (op["user_id"] == this.userId) return false;
+      return true;
     }
   }
 };

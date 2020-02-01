@@ -7,6 +7,8 @@ import vuetify from './plugins/vuetify';
 Vue.config.productionTip = false
 
 import axios from "axios";
+axios.defaults.xsrfCookieName = 'csrf_access_token';
+axios.defaults.xsrfHeaderName = "X-CSRF-TOKEN";
 import api from "@/plugins/api.js";
 Vue.use(api, { axios });
 Vue.prototype.$http = axios;
