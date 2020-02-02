@@ -114,7 +114,9 @@ export default {
 
       isVerifying: false,
       verifyCandidates: [],
-      verifyContent: {}
+      verifyContent: {},
+
+      showDialog: false
     };
   },
   computed: {

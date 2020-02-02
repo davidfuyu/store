@@ -9,6 +9,7 @@ import Login from "@/components/login.vue";
 import Register from "@/components/register.vue";
 import Dashboard from "@/components/dashboard.vue";
 import OP from "@/components/main-organism-property.vue";
+import NO from "@/components/main-organism-new.vue";
 import Home from "@/components/home.vue";
 
 let router = new Router({
@@ -37,7 +38,14 @@ let router = new Router({
       }
     },
     {
-      path: "/organism-property/:id",
+      path: "/organism/new",
+      component: NO,
+      meta: {
+        requiresAuth: true
+      }
+    },
+    {
+      path: "/organism/:id",
       component: OP,
       props(route) {
         const props = { ...route.params };

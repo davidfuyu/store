@@ -58,7 +58,14 @@ export default {
           to: "/dashboard",
           disabled: false,
           model: false
-        }
+        },
+        {
+          text: "New Organism",
+          icon: "fas fa-tachometer-alt",
+          to: "/organism/new",
+          disabled: false,
+          model: false
+        },
       ];
 
       if (this.organisms.length) {
@@ -67,7 +74,7 @@ export default {
           let o = this.organisms[i];
           childOrganisms.push({
             text: o["organism_name"],
-            to: "/organism-property/" + o["organism_id"],
+            to: "/organism/" + o["organism_id"],
           });
         }
         tree.push({

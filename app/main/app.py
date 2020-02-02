@@ -65,39 +65,22 @@ def get_organism(organism_id):
     return utils.generate_success_response(records)
 
 
-@app.route('/organism', methods=['POST'])
+@app.route('/organism', methods=['PUT'])
 def set_organism():
-    form = request.form.to_dict()
+    form = request.get_json()
 
-    if form['organism_id']:
-        q1 = "UPDATE organism SET organism_name = %s WHERE organism_id = %s"
-        p1 = [form["organism_name"], form["organism_id"]]
-        # assemble sql_params array
-        qp1 = [q1, p1]
+    q1 = f"INSERT INTO organism (organism_name) VALUES (%s);"
+    p1 = [form["title"]]
+    qp1 = [q1, p1]
 
-        q2 = "select * from organism where organism_id = %s"
-        p2 = [form["organism_id"]]
-        qp2 = [q2, p2]
+    qp2 = ['select * from organism where organism_id = LAST_INSERT_ID()']
 
-        qps = [qp1, qp2]
+    qps = [qp1, qp2]
 
-        with Mysql() as my:
-            record = my.execute_statements(qps)
+    with Mysql() as my:
+        records = my.execute_statements(qps)
 
-        return utils.generate_success_response(record)
-    else:
-        q1 = f"INSERT INTO organism (organism_name) VALUES (%s);"
-        p1 = [form["organism_name"]]
-        qp1 = [q1, p1]
-
-        qp2 = ['select * from organism where organism_id = LAST_INSERT_ID()']
-
-        qps = [qp1, qp2]
-
-        with Mysql() as my:
-            record = my.execute_statements(qps)
-
-        return utils.generate_success_response(record)
+    return utils.generate_success_response(records)
 
 
 @app.route('/organism-property/<int:organism_id>', methods=['GET'])
