@@ -60,7 +60,7 @@ def get_organism(organism_id):
     q = f"SELECT * FROM organism WHERE organism_id = {organism_id} LIMIT 1"
 
     with Mysql() as my:
-        records = my.fetchone(q)
+        records = my.fetch(q)
 
     return utils.generate_success_response(records)
 

@@ -131,14 +131,22 @@ export default {
   created() {
     if (!this.$route.params.id) return;
     this.organismId = this.$route.params.id;
-    axios.get(`organism-property/${this.organismId}`).then(response => {
-      if (response.data.success) {
-        let records = response.data.records;
-        this.name = records[0]["name"];
-        this.updateVuex(records);
-        this.show = true;
-      }
-    });
+    axios
+      .get(`organism/${this.organismId}`)
+      .then(response => {
+        if (response.data.success) {
+          let records = response.data.records;
+          this.name = records[0]["name"];
+        }
+      })
+      .then(
+        axios.get(`organism-property/${this.organismId}`).then(res => {
+          if (res.data.success) {
+            this.updateVuex(res.data.records);
+            this.show = true;
+          }
+        })
+      );
   },
   methods: {
     updateVuex: function(records) {

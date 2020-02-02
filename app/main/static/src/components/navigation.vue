@@ -85,19 +85,6 @@ export default {
     toggleDrawer() {
       this.$emit("update:drawer", !this.drawer);
     },
-    assignTreeOpen() {
-      // once assigned, no update
-      if (this.navigationTree.length === 0) {
-        for (let i = 0; i < this.myExperimentsOpen.length; i++) {
-          let exp = this.myExperimentsOpen[i];
-          this.navigationTreeOpen.push({
-            text: exp["experiment_id"],
-            to: "/experiment/" + exp["experiment_id"],
-            icon: "fas fa-list"
-          });
-        }
-      }
-    }
   }
 };
 </script>
