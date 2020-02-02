@@ -30,7 +30,7 @@
 
       <v-divider></v-divider>
       <v-card-actions>
-        <v-btn text color="primary" @click="close">Register</v-btn>
+        <v-btn text color="primary" @click="register">Register</v-btn>
         <v-spacer></v-spacer>
         <v-btn text color="primary" @click="close">Cancel</v-btn>
         <v-btn text color="primary" @click="login">Login</v-btn>
@@ -68,6 +68,10 @@ export default {
             this.$router.push(this.$route.query.redirect || "/");
           }
         });
+    },
+    register(){
+      this.$router.push("/register");
+      this.showDialog = false;
     },
     close() {
       this.showDialog = false;

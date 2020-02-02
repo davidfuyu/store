@@ -1,4 +1,4 @@
-export const user= {
+export const user = {
   namespaced: true,
   state: {
     isAuthenticated: false,
@@ -15,6 +15,17 @@ export const user= {
     },
   },
   getters: {
-    userId: state => { return state.user['user_id']; },
+    userId: state => {
+      if (state.user) return state.user['user_id'];
+      return null;
+    },
+    email: state => {
+      if (state.user) return state.user['email'];
+      return null;
+    },
+    name: state => {
+      if (state.user) return state.user['name'];
+      return null;
+    },
   }
 };

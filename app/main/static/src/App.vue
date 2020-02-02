@@ -8,8 +8,7 @@
         <span class="title">Information</span>
       </v-toolbar-title>
       <v-spacer></v-spacer>
-      <!-- <user-profile></user-profile> -->
-      <!-- <v-toolbar-title style="font-weight:300;font-size:21px;" class="ml-0 pl-0">{{ name }}</v-toolbar-title> -->
+      <user-profile></user-profile>
     </v-app-bar>
     <v-content>
       <router-view :key="$route.fullPath"></router-view>
@@ -20,10 +19,12 @@
 
 <script>
 import Navigation from "@/components/navigation.vue";
+import UserProfile from "@/components/user-profile.vue";
+
 export default {
   name: "App",
 
-  components: {Navigation},
+  components: { Navigation, "user-profile": UserProfile },
 
   data() {
     return {

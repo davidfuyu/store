@@ -1,7 +1,7 @@
 import Vue from "vue";
 import Router from "vue-router";
 
-import { user} from "@/store/store-user.js";
+import { user } from "@/store/store-user.js";
 
 Vue.use(Router);
 
