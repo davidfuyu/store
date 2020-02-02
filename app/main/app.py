@@ -18,6 +18,27 @@ app.config['JWT_SECRET_KEY'] = 'secret'
 bcrypt = Bcrypt(app)
 jwt = JWTManager(app)
 
+_qop = f"""
+    SELECT o.name
+        , op.organism_property_id
+        , op.property_id
+        , p.property_name
+        , value
+        , opl.user_id
+        , s.status_name
+    FROM organism_property_log opl
+    JOIN organism_property op on opl.organism_property_id = op.organism_property_id
+    JOIN organism o ON op.organism_id = o.organism_id
+    JOIN property p ON op.property_id = p.property_id
+    JOIN status s ON opl.status_id = s.status_id
+    WHERE organism_property_log_id = (
+        SELECT MAX(organism_property_log_id) 
+        FROM organism_property_log opl2
+        WHERE opl2.organism_property_id = opl.organism_property_id
+        GROUP BY opl2.organism_property_id
+        )
+"""
+
 
 @app.route('/')
 def index():
@@ -82,26 +103,8 @@ def set_organism():
 @app.route('/organism-property/<int:organism_id>', methods=['GET'])
 @jwt_required
 def organism_property(organism_id):
-    q = f"""
-        SELECT o.name
-            , op.organism_property_id
-            , op.property_id
-            , p.property_name
-            , value
-            , opl.user_id
-            , s.status_name
-        FROM organism_property op
-        JOIN organism o ON op.organism_id = o.organism_id
-        JOIN property p ON op.property_id = p.property_id
-        JOIN organism_property_log opl on opl.organism_property_log_id = (
-            SELECT MAX(organism_property_log_id) 
-            FROM organism_property_log opl2
-            WHERE opl2.organism_property_id = opl.organism_property_id
-            GROUP BY opl2.organism_property_id
-            )
-        JOIN status s ON opl.status_id = s.status_id
-        WHERE op.organism_id = {organism_id}
-    """
+    q = _qop + f" AND op.organism_id = {organism_id}"
+
     with Mysql() as my:
         records = my.fetch(q)
 
@@ -167,17 +170,8 @@ def set_organism_property(organism_id):
             with Mysql() as my:
                 my.execute_statements(sps)
 
-    q = f"""
-        SELECT o.name
-            , op.organism_property_id
-            , op.property_id
-            , p.property_name
-            , value
-        FROM organism_property op
-        JOIN organism o ON op.organism_id = o.organism_id
-        JOIN property p ON op.property_id = p.property_id
-        WHERE op.organism_id = {organism_id}
-    """
+    q = _qop + f" AND op.organism_id = {organism_id}"
+
     with Mysql() as my:
         records = my.fetch(q)
 
@@ -208,8 +202,13 @@ def set_organism_property_log(organism_id):
 
         with Mysql() as my:
             my.execute(q)
-    
-    return utils.generate_success_response()
+
+    q = _qop + f" AND op.organism_id = {organism_id}"
+
+    with Mysql() as my:
+        records = my.fetch(q)
+
+    return utils.generate_success_response(records)
 
 
 @app.route('/category', methods=['GET'])

@@ -15,12 +15,21 @@
         :hidden="!showEditSavelButton || isVerifying"
       >Save</v-btn>
 
-      <v-btn title="Verify" @click="onClickVerifyButton" :hidden="isVerifying || isEditing">Verify</v-btn>
+      <v-btn
+        title="Verify"
+        @click="onClickVerifyButton"
+        :hidden="isVerifying || isEditing || Object.keys(verifyContent).length == 0"
+      >Verify</v-btn>
       <v-btn
         title="Cancel"
         @click="onClickVerifyCancelButton"
         :hidden="!isVerifying || isEditing"
       >Cancel</v-btn>
+      <v-btn
+        title="Verify All"
+        @click="onClickVerifyAllButton"
+        :hidden="!isVerifying || isEditing"
+      >Verify All</v-btn>
       <v-btn
         title="Confirm"
         @click="onClickVerifyConfirmButton"
@@ -43,6 +52,7 @@
                       class="text-xs"
                       solo
                       hide-details
+                      :disabled="editContent[p['property_id']]['status_name'] == 'verified'"
                     ></v-text-field>
                   </v-col>
                 </v-row>
@@ -53,21 +63,19 @@
       </div>
 
       <div v-else-if="isVerifying">
-        <v-form>
-          <div v-for="(c, i) in categories" :key="i">
-            <b style="font-size:1.5em">{{c.property_category_name}}</b>
-            <div v-for="(p,j) in categorizedProperties[c.property_category_name]" :key="j">
-              <div v-if="keyed[p['property_id']] && ifUserCanVerify(keyed[p['property_id']])">
-                <v-checkbox
-                  style="margin-left:40px"
-                  v-model="verifyContent"
-                  :label="p['property_name']"
-                  :value="keyed[p['property_id']]"
-                ></v-checkbox>
-              </div>
+        <div v-for="(c, i) in categories" :key="i">
+          <b style="font-size:1.5em">{{c.property_category_name}}</b>
+          <div v-for="(p,j) in categorizedProperties[c.property_category_name]" :key="j">
+            <div v-if="verifyContent[p['property_id']]">
+              <v-checkbox
+                style="margin-left:40px"
+                v-model="verifyCandidates"
+                :label="p['property_name']"
+                :value="verifyContent[p['property_id']]"
+              ></v-checkbox>
             </div>
           </div>
-        </v-form>
+        </div>
       </div>
 
       <div v-else :hidden="!show">
@@ -75,8 +83,11 @@
           <b style="font-size:1.5em">{{c.property_category_name}}</b>
           <div v-for="(p,j) in categorizedProperties[c.property_category_name]" :key="j">
             <div v-if="keyed[p['property_id']]">
-              <b style="margin-left:40px">{{p['property_name']}}</b>
-              {{keyed[p['property_id']]['value']}}
+              <span style="margin-left:40px">{{p['property_name']}}:</span>
+              <span v-if="keyed[p['property_id']]['status_name'] == 'verified'">
+                <b>{{keyed[p['property_id']]['value']}}</b>
+              </span>
+              <span v-else>{{keyed[p['property_id']]['value']}}</span>
             </div>
           </div>
         </div>
@@ -102,7 +113,8 @@ export default {
       editContent: {},
 
       isVerifying: false,
-      verifyContent: []
+      verifyCandidates: [],
+      verifyContent: {}
     };
   },
   computed: {
@@ -113,7 +125,7 @@ export default {
       return this.isEditing;
     },
     showVerifyConfirmButton: function() {
-      return this.verifyContent.length;
+      return this.verifyCandidates.length;
     }
   },
   created() {
@@ -123,15 +135,23 @@ export default {
       if (response.data.success) {
         let records = response.data.records;
         this.name = records[0]["name"];
-        for (let i = 0; i < records.length; i++) {
-          let pid = records[i]["property_id"];
-          this.keyed[pid] = records[i];
-        }
+        this.updateVuex(records);
         this.show = true;
       }
     });
   },
   methods: {
+    updateVuex: function(records) {
+      for (let i = 0; i < records.length; i++) {
+        let record = records[i];
+        let pid = record["property_id"];
+        this.keyed[pid] = record;
+
+        if (record["status_name"] == "verified") continue;
+        if (record["user_id"] == this.userId) continue;
+        this.verifyContent[pid] = record;
+      }
+    },
     onClickEditButton: function() {
       for (let i = 0; i < this.properties.length; i++) {
         let pid = this.properties[i]["property_id"];
@@ -168,32 +188,34 @@ export default {
         .post(`/organism-property/${this.organismId}`, todo)
         .then(response => {
           if (response.data.success) {
-            let records = response.data.records;
-            for (let i = 0; i < records.length; i++) {
-              let pid = records[i]["property_id"];
-              this.keyed[pid] = records[i];
-            }
+            this.updateVuex(response.data.records);
           }
           this.isEditing = false;
         });
     },
     onClickVerifyButton: function() {
-      this.verifyContent = [];
+      this.verifyCandidates = [];
       this.isVerifying = true;
     },
     onClickVerifyCancelButton: function() {
-      this.verifyContent = [];
+      this.verifyCandidates = [];
       this.isVerifying = false;
+    },
+    onClickVerifyAllButton: function() {
+      this.verifyCandidates = Object.values(this.verifyContent);
     },
     onClickVerifyConfirmButton: function() {
       axios
         .post(
           `/organism-property/${this.organismId}/verify`,
-          this.verifyContent
+          this.verifyCandidates
         )
         .then(response => {
+          if (response.data.success) {
+            this.updateVuex(response.data.records);
+          }
+          this.verifyCandidates = [];
           this.isVerifying = false;
-          this.verifyContent = [];
         });
     },
     ifUserCanVerify: function(op) {
