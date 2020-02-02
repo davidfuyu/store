@@ -19,7 +19,7 @@ bcrypt = Bcrypt(app)
 jwt = JWTManager(app)
 
 _qop = f"""
-    SELECT o.name
+    SELECT o.organism_name
         , op.organism_property_id
         , op.property_id
         , p.property_name
@@ -70,8 +70,8 @@ def set_organism():
     form = request.form.to_dict()
 
     if form['organism_id']:
-        q1 = "UPDATE organism SET name = %s WHERE organism_id = %s"
-        p1 = [form["name"], form["organism_id"]]
+        q1 = "UPDATE organism SET organism_name = %s WHERE organism_id = %s"
+        p1 = [form["organism_name"], form["organism_id"]]
         # assemble sql_params array
         qp1 = [q1, p1]
 
@@ -86,8 +86,8 @@ def set_organism():
 
         return utils.generate_success_response(record)
     else:
-        q1 = f"INSERT INTO organism (name) VALUES (%s);"
-        p1 = [form["name"]]
+        q1 = f"INSERT INTO organism (organism_name) VALUES (%s);"
+        p1 = [form["organism_name"]]
         qp1 = [q1, p1]
 
         qp2 = ['select * from organism where organism_id = LAST_INSERT_ID()']

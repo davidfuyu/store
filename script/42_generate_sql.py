@@ -11,10 +11,10 @@ with open(os.path.join(os.path.dirname(__file__), "43_insert_test.sql"), "w+") a
     for row in records:
         items = row.strip().split("\t")
         name = items[0] + ("_" + items[1] if items[1] else '')
-        q = f"INSERT INTO organism (name) VALUES ('{name}');\n"
+        q = f"INSERT INTO organism (organism_name) VALUES ('{name}');\n"
 
         for i in range(1, len(items)):
-            organism_id = f"(SELECT organism_id from organism where name = '{name}')"
+            organism_id = f"(SELECT organism_id from organism where organism_name = '{name}')"
             value = items[i].replace("'", "''")
 
             if value and value != '' and i not in (6, 7, 9, 10, 67, 71):

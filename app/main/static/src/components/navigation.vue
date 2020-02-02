@@ -66,7 +66,7 @@ export default {
         for (let i = 0; i < this.organisms.length; i++) {
           let o = this.organisms[i];
           childOrganisms.push({
-            text: o["name"],
+            text: o["organism_name"],
             to: "/organism-property/" + o["organism_id"],
           });
         }

@@ -1,7 +1,7 @@
 <template>
   <v-container fluid>
     <div :hidden="!show">
-      <b style="font-size:2em">{{name}}</b>
+      <b style="font-size:2em">{{organismName}}</b>
       <v-divider></v-divider>
       <v-btn title="Edit" @click="onClickEditButton" :hidden="isEditing || isVerifying">Edit</v-btn>
       <v-btn
@@ -106,7 +106,7 @@ export default {
     return {
       show: false,
       organismId: 0,
-      name: "",
+      organismName: "",
       keyed: {},
 
       isEditing: false,
@@ -136,7 +136,7 @@ export default {
       .then(response => {
         if (response.data.success) {
           let records = response.data.records;
-          this.name = records[0]["name"];
+          this.organismName = records[0]["organism_name"];
         }
       })
       .then(
@@ -150,6 +150,9 @@ export default {
   },
   methods: {
     updateVuex: function(records) {
+      this.keyed = {};
+      this.verifyContent = {};
+
       for (let i = 0; i < records.length; i++) {
         let record = records[i];
         let pid = record["property_id"];
@@ -225,11 +228,6 @@ export default {
           this.verifyCandidates = [];
           this.isVerifying = false;
         });
-    },
-    ifUserCanVerify: function(op) {
-      if (op["status_name"] == "verified") return false;
-      if (op["user_id"] == this.userId) return false;
-      return true;
     }
   }
 };
