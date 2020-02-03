@@ -47,13 +47,29 @@
                     <b>{{p['property_name']}}</b>:
                   </v-col>
                   <v-col cols="5">
-                    <v-text-field
-                      v-model="editContent[p['property_id']]['value']"
-                      class="text-xs"
-                      solo
-                      hide-details
-                      :disabled="editContent[p['property_id']]['status_name'] == 'verified'"
-                    ></v-text-field>
+                    <div v-if="p['property_type_name'] == 'positive/negative'">
+                      <v-autocomplete
+                        :items="defaultPositiveNegative"
+                        v-model="editContent[p['property_id']]['value']"
+                        :disabled="editContent[p['property_id']]['status_name'] == 'verified'"
+                      ></v-autocomplete>
+                    </div>
+                    <div v-else-if="p['property_name'] == 'Yes/No'">
+                      <v-autocomplete
+                        :items="defaultYesNo"
+                        v-model="editContent[p['property_id']]['value']"
+                        :disabled="editContent[p['property_id']]['status_name'] == 'verified'"
+                      ></v-autocomplete>
+                    </div>
+                    <div v-else>
+                      <v-text-field
+                        v-model="editContent[p['property_id']]['value']"
+                        class="text-xs"
+                        solo
+                        hide-details
+                        :disabled="editContent[p['property_id']]['status_name'] == 'verified'"
+                      ></v-text-field>
+                    </div>
                   </v-col>
                 </v-row>
               </v-container>
@@ -116,7 +132,29 @@ export default {
       verifyCandidates: [],
       verifyContent: {},
 
-      showDialog: false
+      showDialog: false,
+
+      defaultPositiveNegative: [
+        "positive",
+        "negative",
+        "0-10% positive",
+        "26-75% positive",
+        "90-100% positive",
+        "76-89% positive",
+        "11-25% positive",
+        "strain instability",
+        "Different reactions in different taxa"
+      ],
+
+      defaultYesNo: [
+        "positive",
+        "negative",
+        "0-10% positive",
+        "+ or -",
+        "90-100% positive",
+        "strain instability",
+        "Different reactions in different taxa"
+      ]
     };
   },
   computed: {

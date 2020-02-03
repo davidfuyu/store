@@ -61,7 +61,7 @@ export default {
         },
         {
           text: "New Organism",
-          icon: "fas fa-tachometer-alt",
+          icon: "fas fa-plus",
           to: "/organism/new",
           disabled: false,
           model: false
