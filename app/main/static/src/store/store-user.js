@@ -27,5 +27,8 @@ export const user = {
       if (state.user) return state.user['name'];
       return null;
     },
+    isAuthenticated: state => {
+      return state.isAuthenticated;
+    },
   }
 };

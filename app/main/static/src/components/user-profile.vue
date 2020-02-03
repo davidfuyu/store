@@ -28,10 +28,8 @@
       <v-card-actions>
         <v-btn @click.native="showUser = false">close</v-btn>
         <v-spacer></v-spacer>
-        <v-btn color="primary" dark @click.native="goToLogout">
-          logout
-          <!-- <v-icon dark right>exit_to_app</v-icon> -->
-        </v-btn>
+        <v-btn v-if="!isAuthenticated" color="primary" dark @click="login">Login</v-btn>
+        <v-btn v-else color="primary" dark @click="logout">Logout</v-btn>
       </v-card-actions>
     </v-card>
   </v-menu>
@@ -47,14 +45,18 @@ export default {
   },
   props: {},
   computed: {
-    ...mapGetters("user", ["email", "name"])
+    ...mapGetters("user", ["email", "name", "isAuthenticated"])
   },
   methods: {
     ...mapMutations("user", ["userLogout"]),
-    goToLogout() {
-      this.userLogout;
+    login() {
       this.showUser = false;
-      this.$router.push("/home");
+      this.$router.push("/login");
+    },
+    logout() {
+      this.userLogout();
+      this.showUser = false;
+      this.$router.push("/");
     }
   }
 };

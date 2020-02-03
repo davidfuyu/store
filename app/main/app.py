@@ -45,6 +45,54 @@ def index():
     return redirect('index.html')
 
 
+@app.route('/metrics/general', methods=['GET'])
+def metrics():
+    with Mysql() as my:
+        count_organism = my.fetch("SELECT count(*) AS count FROM organism")
+        count_organism_property = my.fetch(
+            "SELECT count(*) AS count FROM organism_property")
+
+    records = {
+        'count_organism': count_organism,
+        'count_organism_property': count_organism_property,
+    }
+
+    return utils.generate_success_response([records])
+
+
+@app.route('/metrics', methods=['GET'])
+@jwt_required
+def metrics_user():
+    token = get_jwt_identity()
+    user_id = token['user_id']
+
+    with Mysql() as my:
+        count_organism = my.fetch("SELECT count(*) AS count FROM organism")
+        count_organism_property = my.fetch(
+            "SELECT count(*) AS count FROM organism_property")
+        count_verified = my.fetch(f"""
+            SELECT count(*) AS count
+            FROM organism_property_log 
+            WHERE status_id = (SELECT status_id FROM status WHERE status_name = 'verified' limit 1)
+            AND user_id = {user_id}
+       """)
+        count_other = my.fetch(f"""
+            SELECT count(*) AS count
+            FROM organism_property_log 
+            WHERE status_id = (SELECT status_id FROM status WHERE status_name = 'verified' limit 1)
+            AND user_id = {user_id}
+        """)
+
+    records = {
+        'count_organism': count_organism,
+        'count_organism_property': count_organism_property,
+        'count_verified': count_verified,
+        'count_other': count_other
+    }
+
+    return utils.generate_success_response([records])
+
+
 @app.route('/organism', methods=['GET'])
 def all_organism():
     q = "SELECT * FROM organism"

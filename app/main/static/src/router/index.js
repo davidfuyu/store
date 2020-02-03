@@ -58,7 +58,7 @@ let router = new Router({
     },
     {
       path: "*",
-      redirect: "/dashboard"
+      redirect: "/home"
     }
   ]
 });
