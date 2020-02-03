@@ -11,7 +11,7 @@ Hemolysis	This test provides information on what hemolytic enzymes a bacterium p
 Hydrogen sulfide production	This test determines whether the microbe reduces sulfur-containing compounds to sulfides during the process of metabolism.	Yes/No	General characteristics
 Motility 	Can the microbe move (swim) by means of flagella.	Yes/No	General characteristics
 Optimal NaCl concentration		float	General characteristics
-Optimum Growth Temperature (ºC)	Temperature at which the organism grows most rapidly	float	General characteristics
+Optimum Growth Temperature (C)	Temperature at which the organism grows most rapidly	float	General characteristics
 Optimum pH		float	General characteristics
 Pathogenic	An agent causing disease or illness to its host, such as an organism or infectious particle capable of producing a disease in another organism.	Yes/No	General characteristics
 pH growth range		float	General characteristics

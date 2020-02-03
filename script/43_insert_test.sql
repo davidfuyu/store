@@ -10,7 +10,7 @@ INSERT INTO organism_property (organism_id, property_id, value) VALUES ((SELECT 
     INSERT INTO organism_property_log (organism_property_id, status_id, user_id) VALUES(LAST_INSERT_ID(), 1, 1);
 INSERT INTO organism_property (organism_id, property_id, value) VALUES ((SELECT organism_id from organism where organism_name = 'Alcaligenes faecalis_371'), (SELECT property_id from property where lower(property_name) = lower('Cellular morphology phenotype')), 'bacillus, coccobacillus, or coccus, 0.5-1.0um in diameter and 0.5-2.6um in length');
     INSERT INTO organism_property_log (organism_property_id, status_id, user_id) VALUES(LAST_INSERT_ID(), 1, 1);
-INSERT INTO organism_property (organism_id, property_id, value) VALUES ((SELECT organism_id from organism where organism_name = 'Alcaligenes faecalis_371'), (SELECT property_id from property where lower(property_name) = lower('Optimum Growth Temperature (ºC)')), '27-37');
+INSERT INTO organism_property (organism_id, property_id, value) VALUES ((SELECT organism_id from organism where organism_name = 'Alcaligenes faecalis_371'), (SELECT property_id from property where lower(property_name) = lower('Optimum Growth Temperature (C)')), '27-37');
     INSERT INTO organism_property_log (organism_property_id, status_id, user_id) VALUES(LAST_INSERT_ID(), 1, 1);
 INSERT INTO organism_property (organism_id, property_id, value) VALUES ((SELECT organism_id from organism where organism_name = 'Alcaligenes faecalis_371'), (SELECT property_id from property where lower(property_name) = lower('Gram stain')), 'negative');
     INSERT INTO organism_property_log (organism_property_id, status_id, user_id) VALUES(LAST_INSERT_ID(), 1, 1);
@@ -195,7 +195,7 @@ INSERT INTO organism_property (organism_id, property_id, value) VALUES ((SELECT 
     INSERT INTO organism_property_log (organism_property_id, status_id, user_id) VALUES(LAST_INSERT_ID(), 1, 1);
 INSERT INTO organism_property (organism_id, property_id, value) VALUES ((SELECT organism_id from organism where organism_name = 'Enterobacter aerogenes_430'), (SELECT property_id from property where lower(property_name) = lower('Cellular morphology phenotype')), 'bacillus, 0.6-1.0um wide and 1.2-3.0um long');
     INSERT INTO organism_property_log (organism_property_id, status_id, user_id) VALUES(LAST_INSERT_ID(), 1, 1);
-INSERT INTO organism_property (organism_id, property_id, value) VALUES ((SELECT organism_id from organism where organism_name = 'Enterobacter aerogenes_430'), (SELECT property_id from property where lower(property_name) = lower('Optimum Growth Temperature (ºC)')), '30-37');
+INSERT INTO organism_property (organism_id, property_id, value) VALUES ((SELECT organism_id from organism where organism_name = 'Enterobacter aerogenes_430'), (SELECT property_id from property where lower(property_name) = lower('Optimum Growth Temperature (C)')), '30-37');
     INSERT INTO organism_property_log (organism_property_id, status_id, user_id) VALUES(LAST_INSERT_ID(), 1, 1);
 INSERT INTO organism_property (organism_id, property_id, value) VALUES ((SELECT organism_id from organism where organism_name = 'Enterobacter aerogenes_430'), (SELECT property_id from property where lower(property_name) = lower('Gram stain')), 'negative');
     INSERT INTO organism_property_log (organism_property_id, status_id, user_id) VALUES(LAST_INSERT_ID(), 1, 1);
@@ -308,7 +308,7 @@ INSERT INTO organism_property (organism_id, property_id, value) VALUES ((SELECT 
     INSERT INTO organism_property_log (organism_property_id, status_id, user_id) VALUES(LAST_INSERT_ID(), 1, 1);
 INSERT INTO organism_property (organism_id, property_id, value) VALUES ((SELECT organism_id from organism where organism_name = 'Enterobacter cloacae_427'), (SELECT property_id from property where lower(property_name) = lower('Cellular morphology phenotype')), 'bacillus, 0.6-1.0um wide and 1.2-3.0um long');
     INSERT INTO organism_property_log (organism_property_id, status_id, user_id) VALUES(LAST_INSERT_ID(), 1, 1);
-INSERT INTO organism_property (organism_id, property_id, value) VALUES ((SELECT organism_id from organism where organism_name = 'Enterobacter cloacae_427'), (SELECT property_id from property where lower(property_name) = lower('Optimum Growth Temperature (ºC)')), '30-37');
+INSERT INTO organism_property (organism_id, property_id, value) VALUES ((SELECT organism_id from organism where organism_name = 'Enterobacter cloacae_427'), (SELECT property_id from property where lower(property_name) = lower('Optimum Growth Temperature (C)')), '30-37');
     INSERT INTO organism_property_log (organism_property_id, status_id, user_id) VALUES(LAST_INSERT_ID(), 1, 1);
 INSERT INTO organism_property (organism_id, property_id, value) VALUES ((SELECT organism_id from organism where organism_name = 'Enterobacter cloacae_427'), (SELECT property_id from property where lower(property_name) = lower('Gram stain')), 'negative');
     INSERT INTO organism_property_log (organism_property_id, status_id, user_id) VALUES(LAST_INSERT_ID(), 1, 1);
@@ -413,7 +413,7 @@ INSERT INTO organism_property (organism_id, property_id, value) VALUES ((SELECT 
     INSERT INTO organism_property_log (organism_property_id, status_id, user_id) VALUES(LAST_INSERT_ID(), 1, 1);
 INSERT INTO organism_property (organism_id, property_id, value) VALUES ((SELECT organism_id from organism where organism_name = 'Enterobacter faecalis_745'), (SELECT property_id from property where lower(property_name) = lower('Cellular morphology phenotype')), 'bacillus, 0.6-1.0um wide and 1.2-3.0um long');
     INSERT INTO organism_property_log (organism_property_id, status_id, user_id) VALUES(LAST_INSERT_ID(), 1, 1);
-INSERT INTO organism_property (organism_id, property_id, value) VALUES ((SELECT organism_id from organism where organism_name = 'Enterobacter faecalis_745'), (SELECT property_id from property where lower(property_name) = lower('Optimum Growth Temperature (ºC)')), '30-37');
+INSERT INTO organism_property (organism_id, property_id, value) VALUES ((SELECT organism_id from organism where organism_name = 'Enterobacter faecalis_745'), (SELECT property_id from property where lower(property_name) = lower('Optimum Growth Temperature (C)')), '30-37');
     INSERT INTO organism_property_log (organism_property_id, status_id, user_id) VALUES(LAST_INSERT_ID(), 1, 1);
 INSERT INTO organism_property (organism_id, property_id, value) VALUES ((SELECT organism_id from organism where organism_name = 'Enterobacter faecalis_745'), (SELECT property_id from property where lower(property_name) = lower('Gram stain')), 'negative');
     INSERT INTO organism_property_log (organism_property_id, status_id, user_id) VALUES(LAST_INSERT_ID(), 1, 1);
@@ -452,7 +452,7 @@ INSERT INTO organism_property (organism_id, property_id, value) VALUES ((SELECT 
     INSERT INTO organism_property_log (organism_property_id, status_id, user_id) VALUES(LAST_INSERT_ID(), 1, 1);
 INSERT INTO organism_property (organism_id, property_id, value) VALUES ((SELECT organism_id from organism where organism_name = 'Escherichia coli_35218'), (SELECT property_id from property where lower(property_name) = lower('Cellular morphology phenotype')), 'bacillus, 1.1-1.5um diameter and 2.0-6.0um long');
     INSERT INTO organism_property_log (organism_property_id, status_id, user_id) VALUES(LAST_INSERT_ID(), 1, 1);
-INSERT INTO organism_property (organism_id, property_id, value) VALUES ((SELECT organism_id from organism where organism_name = 'Escherichia coli_35218'), (SELECT property_id from property where lower(property_name) = lower('Optimum Growth Temperature (ºC)')), '37');
+INSERT INTO organism_property (organism_id, property_id, value) VALUES ((SELECT organism_id from organism where organism_name = 'Escherichia coli_35218'), (SELECT property_id from property where lower(property_name) = lower('Optimum Growth Temperature (C)')), '37');
     INSERT INTO organism_property_log (organism_property_id, status_id, user_id) VALUES(LAST_INSERT_ID(), 1, 1);
 INSERT INTO organism_property (organism_id, property_id, value) VALUES ((SELECT organism_id from organism where organism_name = 'Escherichia coli_35218'), (SELECT property_id from property where lower(property_name) = lower('Gram stain')), 'negative');
     INSERT INTO organism_property_log (organism_property_id, status_id, user_id) VALUES(LAST_INSERT_ID(), 1, 1);
@@ -565,7 +565,7 @@ INSERT INTO organism_property (organism_id, property_id, value) VALUES ((SELECT 
     INSERT INTO organism_property_log (organism_property_id, status_id, user_id) VALUES(LAST_INSERT_ID(), 1, 1);
 INSERT INTO organism_property (organism_id, property_id, value) VALUES ((SELECT organism_id from organism where organism_name = 'Escherichia coli_406'), (SELECT property_id from property where lower(property_name) = lower('Cellular morphology phenotype')), 'bacillus, 1.1-1.5um diameter and 2.0-6.0um long');
     INSERT INTO organism_property_log (organism_property_id, status_id, user_id) VALUES(LAST_INSERT_ID(), 1, 1);
-INSERT INTO organism_property (organism_id, property_id, value) VALUES ((SELECT organism_id from organism where organism_name = 'Escherichia coli_406'), (SELECT property_id from property where lower(property_name) = lower('Optimum Growth Temperature (ºC)')), '37');
+INSERT INTO organism_property (organism_id, property_id, value) VALUES ((SELECT organism_id from organism where organism_name = 'Escherichia coli_406'), (SELECT property_id from property where lower(property_name) = lower('Optimum Growth Temperature (C)')), '37');
     INSERT INTO organism_property_log (organism_property_id, status_id, user_id) VALUES(LAST_INSERT_ID(), 1, 1);
 INSERT INTO organism_property (organism_id, property_id, value) VALUES ((SELECT organism_id from organism where organism_name = 'Escherichia coli_406'), (SELECT property_id from property where lower(property_name) = lower('Gram stain')), 'negative');
     INSERT INTO organism_property_log (organism_property_id, status_id, user_id) VALUES(LAST_INSERT_ID(), 1, 1);
@@ -678,7 +678,7 @@ INSERT INTO organism_property (organism_id, property_id, value) VALUES ((SELECT 
     INSERT INTO organism_property_log (organism_property_id, status_id, user_id) VALUES(LAST_INSERT_ID(), 1, 1);
 INSERT INTO organism_property (organism_id, property_id, value) VALUES ((SELECT organism_id from organism where organism_name = 'Klebsiella oxytoca_432'), (SELECT property_id from property where lower(property_name) = lower('Cellular morphology phenotype')), 'Bacillus, 0.3-1.0um in diameter and 0.6-6.0um in length.');
     INSERT INTO organism_property_log (organism_property_id, status_id, user_id) VALUES(LAST_INSERT_ID(), 1, 1);
-INSERT INTO organism_property (organism_id, property_id, value) VALUES ((SELECT organism_id from organism where organism_name = 'Klebsiella oxytoca_432'), (SELECT property_id from property where lower(property_name) = lower('Optimum Growth Temperature (ºC)')), '37');
+INSERT INTO organism_property (organism_id, property_id, value) VALUES ((SELECT organism_id from organism where organism_name = 'Klebsiella oxytoca_432'), (SELECT property_id from property where lower(property_name) = lower('Optimum Growth Temperature (C)')), '37');
     INSERT INTO organism_property_log (organism_property_id, status_id, user_id) VALUES(LAST_INSERT_ID(), 1, 1);
 INSERT INTO organism_property (organism_id, property_id, value) VALUES ((SELECT organism_id from organism where organism_name = 'Klebsiella oxytoca_432'), (SELECT property_id from property where lower(property_name) = lower('Gram stain')), 'Negative');
     INSERT INTO organism_property_log (organism_property_id, status_id, user_id) VALUES(LAST_INSERT_ID(), 1, 1);
@@ -787,7 +787,7 @@ INSERT INTO organism_property (organism_id, property_id, value) VALUES ((SELECT 
     INSERT INTO organism_property_log (organism_property_id, status_id, user_id) VALUES(LAST_INSERT_ID(), 1, 1);
 INSERT INTO organism_property (organism_id, property_id, value) VALUES ((SELECT organism_id from organism where organism_name = 'Klebsiella ozaenae_620'), (SELECT property_id from property where lower(property_name) = lower('Cellular morphology phenotype')), 'Bacillus, 0.3-1.0um in diameter and 0.6-6.0um in length.');
     INSERT INTO organism_property_log (organism_property_id, status_id, user_id) VALUES(LAST_INSERT_ID(), 1, 1);
-INSERT INTO organism_property (organism_id, property_id, value) VALUES ((SELECT organism_id from organism where organism_name = 'Klebsiella ozaenae_620'), (SELECT property_id from property where lower(property_name) = lower('Optimum Growth Temperature (ºC)')), '37');
+INSERT INTO organism_property (organism_id, property_id, value) VALUES ((SELECT organism_id from organism where organism_name = 'Klebsiella ozaenae_620'), (SELECT property_id from property where lower(property_name) = lower('Optimum Growth Temperature (C)')), '37');
     INSERT INTO organism_property_log (organism_property_id, status_id, user_id) VALUES(LAST_INSERT_ID(), 1, 1);
 INSERT INTO organism_property (organism_id, property_id, value) VALUES ((SELECT organism_id from organism where organism_name = 'Klebsiella ozaenae_620'), (SELECT property_id from property where lower(property_name) = lower('Gram stain')), 'Negative');
     INSERT INTO organism_property_log (organism_property_id, status_id, user_id) VALUES(LAST_INSERT_ID(), 1, 1);
@@ -898,7 +898,7 @@ INSERT INTO organism_property (organism_id, property_id, value) VALUES ((SELECT 
     INSERT INTO organism_property_log (organism_property_id, status_id, user_id) VALUES(LAST_INSERT_ID(), 1, 1);
 INSERT INTO organism_property (organism_id, property_id, value) VALUES ((SELECT organism_id from organism where organism_name = 'Klebsiella pneumoniae_70063'), (SELECT property_id from property where lower(property_name) = lower('Cellular morphology phenotype')), 'Bacillus, 0.3-1.0um in diameter and 0.6-6.0um in length.');
     INSERT INTO organism_property_log (organism_property_id, status_id, user_id) VALUES(LAST_INSERT_ID(), 1, 1);
-INSERT INTO organism_property (organism_id, property_id, value) VALUES ((SELECT organism_id from organism where organism_name = 'Klebsiella pneumoniae_70063'), (SELECT property_id from property where lower(property_name) = lower('Optimum Growth Temperature (ºC)')), '37');
+INSERT INTO organism_property (organism_id, property_id, value) VALUES ((SELECT organism_id from organism where organism_name = 'Klebsiella pneumoniae_70063'), (SELECT property_id from property where lower(property_name) = lower('Optimum Growth Temperature (C)')), '37');
     INSERT INTO organism_property_log (organism_property_id, status_id, user_id) VALUES(LAST_INSERT_ID(), 1, 1);
 INSERT INTO organism_property (organism_id, property_id, value) VALUES ((SELECT organism_id from organism where organism_name = 'Klebsiella pneumoniae_70063'), (SELECT property_id from property where lower(property_name) = lower('Gram stain')), 'Negative');
     INSERT INTO organism_property_log (organism_property_id, status_id, user_id) VALUES(LAST_INSERT_ID(), 1, 1);
@@ -1007,7 +1007,7 @@ INSERT INTO organism_property (organism_id, property_id, value) VALUES ((SELECT 
     INSERT INTO organism_property_log (organism_property_id, status_id, user_id) VALUES(LAST_INSERT_ID(), 1, 1);
 INSERT INTO organism_property (organism_id, property_id, value) VALUES ((SELECT organism_id from organism where organism_name = 'Micrococcus luteus_670'), (SELECT property_id from property where lower(property_name) = lower('Cellular morphology phenotype')), 'coccus, 0.5-2.0um in diameter');
     INSERT INTO organism_property_log (organism_property_id, status_id, user_id) VALUES(LAST_INSERT_ID(), 1, 1);
-INSERT INTO organism_property (organism_id, property_id, value) VALUES ((SELECT organism_id from organism where organism_name = 'Micrococcus luteus_670'), (SELECT property_id from property where lower(property_name) = lower('Optimum Growth Temperature (ºC)')), '25-37');
+INSERT INTO organism_property (organism_id, property_id, value) VALUES ((SELECT organism_id from organism where organism_name = 'Micrococcus luteus_670'), (SELECT property_id from property where lower(property_name) = lower('Optimum Growth Temperature (C)')), '25-37');
     INSERT INTO organism_property_log (organism_property_id, status_id, user_id) VALUES(LAST_INSERT_ID(), 1, 1);
 INSERT INTO organism_property (organism_id, property_id, value) VALUES ((SELECT organism_id from organism where organism_name = 'Micrococcus luteus_670'), (SELECT property_id from property where lower(property_name) = lower('Gram stain')), 'Positive');
     INSERT INTO organism_property_log (organism_property_id, status_id, user_id) VALUES(LAST_INSERT_ID(), 1, 1);
@@ -1048,7 +1048,7 @@ INSERT INTO organism_property (organism_id, property_id, value) VALUES ((SELECT 
     INSERT INTO organism_property_log (organism_property_id, status_id, user_id) VALUES(LAST_INSERT_ID(), 1, 1);
 INSERT INTO organism_property (organism_id, property_id, value) VALUES ((SELECT organism_id from organism where organism_name = 'Moraxella B. catarrhalis'), (SELECT property_id from property where lower(property_name) = lower('Cellular morphology phenotype')), 'coccus, 0.6-1.0um in diameter.');
     INSERT INTO organism_property_log (organism_property_id, status_id, user_id) VALUES(LAST_INSERT_ID(), 1, 1);
-INSERT INTO organism_property (organism_id, property_id, value) VALUES ((SELECT organism_id from organism where organism_name = 'Moraxella B. catarrhalis'), (SELECT property_id from property where lower(property_name) = lower('Optimum Growth Temperature (ºC)')), '33-35');
+INSERT INTO organism_property (organism_id, property_id, value) VALUES ((SELECT organism_id from organism where organism_name = 'Moraxella B. catarrhalis'), (SELECT property_id from property where lower(property_name) = lower('Optimum Growth Temperature (C)')), '33-35');
     INSERT INTO organism_property_log (organism_property_id, status_id, user_id) VALUES(LAST_INSERT_ID(), 1, 1);
 INSERT INTO organism_property (organism_id, property_id, value) VALUES ((SELECT organism_id from organism where organism_name = 'Moraxella B. catarrhalis'), (SELECT property_id from property where lower(property_name) = lower('D-Glucose, acid production')), 'Negative');
     INSERT INTO organism_property_log (organism_property_id, status_id, user_id) VALUES(LAST_INSERT_ID(), 1, 1);
@@ -1083,7 +1083,7 @@ INSERT INTO organism_property (organism_id, property_id, value) VALUES ((SELECT 
     INSERT INTO organism_property_log (organism_property_id, status_id, user_id) VALUES(LAST_INSERT_ID(), 1, 1);
 INSERT INTO organism_property (organism_id, property_id, value) VALUES ((SELECT organism_id from organism where organism_name = 'Proteus mirabilis_461'), (SELECT property_id from property where lower(property_name) = lower('Cellular morphology phenotype')), 'Bacillus, 0.4-0.8um in diameter x1-3um in length.');
     INSERT INTO organism_property_log (organism_property_id, status_id, user_id) VALUES(LAST_INSERT_ID(), 1, 1);
-INSERT INTO organism_property (organism_id, property_id, value) VALUES ((SELECT organism_id from organism where organism_name = 'Proteus mirabilis_461'), (SELECT property_id from property where lower(property_name) = lower('Optimum Growth Temperature (ºC)')), '37');
+INSERT INTO organism_property (organism_id, property_id, value) VALUES ((SELECT organism_id from organism where organism_name = 'Proteus mirabilis_461'), (SELECT property_id from property where lower(property_name) = lower('Optimum Growth Temperature (C)')), '37');
     INSERT INTO organism_property_log (organism_property_id, status_id, user_id) VALUES(LAST_INSERT_ID(), 1, 1);
 INSERT INTO organism_property (organism_id, property_id, value) VALUES ((SELECT organism_id from organism where organism_name = 'Proteus mirabilis_461'), (SELECT property_id from property where lower(property_name) = lower('Gram stain')), 'Negative');
     INSERT INTO organism_property_log (organism_property_id, status_id, user_id) VALUES(LAST_INSERT_ID(), 1, 1);
@@ -1198,7 +1198,7 @@ INSERT INTO organism_property (organism_id, property_id, value) VALUES ((SELECT 
     INSERT INTO organism_property_log (organism_property_id, status_id, user_id) VALUES(LAST_INSERT_ID(), 1, 1);
 INSERT INTO organism_property (organism_id, property_id, value) VALUES ((SELECT organism_id from organism where organism_name = 'Providencia alcalifaciens_1137'), (SELECT property_id from property where lower(property_name) = lower('Cellular morphology phenotype')), 'Bacillus, 0.6-0.7x1.5-1.25um.');
     INSERT INTO organism_property_log (organism_property_id, status_id, user_id) VALUES(LAST_INSERT_ID(), 1, 1);
-INSERT INTO organism_property (organism_id, property_id, value) VALUES ((SELECT organism_id from organism where organism_name = 'Providencia alcalifaciens_1137'), (SELECT property_id from property where lower(property_name) = lower('Optimum Growth Temperature (ºC)')), '37');
+INSERT INTO organism_property (organism_id, property_id, value) VALUES ((SELECT organism_id from organism where organism_name = 'Providencia alcalifaciens_1137'), (SELECT property_id from property where lower(property_name) = lower('Optimum Growth Temperature (C)')), '37');
     INSERT INTO organism_property_log (organism_property_id, status_id, user_id) VALUES(LAST_INSERT_ID(), 1, 1);
 INSERT INTO organism_property (organism_id, property_id, value) VALUES ((SELECT organism_id from organism where organism_name = 'Providencia alcalifaciens_1137'), (SELECT property_id from property where lower(property_name) = lower('Gram stain')), 'Negative');
     INSERT INTO organism_property_log (organism_property_id, status_id, user_id) VALUES(LAST_INSERT_ID(), 1, 1);
@@ -1273,7 +1273,7 @@ INSERT INTO organism_property (organism_id, property_id, value) VALUES ((SELECT 
     INSERT INTO organism_property_log (organism_property_id, status_id, user_id) VALUES(LAST_INSERT_ID(), 1, 1);
 INSERT INTO organism_property (organism_id, property_id, value) VALUES ((SELECT organism_id from organism where organism_name = 'Providencia rettgeri_471'), (SELECT property_id from property where lower(property_name) = lower('Cellular morphology phenotype')), 'Bacillus, 0.6-0.7x1.5-1.25um.');
     INSERT INTO organism_property_log (organism_property_id, status_id, user_id) VALUES(LAST_INSERT_ID(), 1, 1);
-INSERT INTO organism_property (organism_id, property_id, value) VALUES ((SELECT organism_id from organism where organism_name = 'Providencia rettgeri_471'), (SELECT property_id from property where lower(property_name) = lower('Optimum Growth Temperature (ºC)')), '37');
+INSERT INTO organism_property (organism_id, property_id, value) VALUES ((SELECT organism_id from organism where organism_name = 'Providencia rettgeri_471'), (SELECT property_id from property where lower(property_name) = lower('Optimum Growth Temperature (C)')), '37');
     INSERT INTO organism_property_log (organism_property_id, status_id, user_id) VALUES(LAST_INSERT_ID(), 1, 1);
 INSERT INTO organism_property (organism_id, property_id, value) VALUES ((SELECT organism_id from organism where organism_name = 'Providencia rettgeri_471'), (SELECT property_id from property where lower(property_name) = lower('Gram stain')), 'Negative');
     INSERT INTO organism_property_log (organism_property_id, status_id, user_id) VALUES(LAST_INSERT_ID(), 1, 1);
@@ -1348,7 +1348,7 @@ INSERT INTO organism_property (organism_id, property_id, value) VALUES ((SELECT 
     INSERT INTO organism_property_log (organism_property_id, status_id, user_id) VALUES(LAST_INSERT_ID(), 1, 1);
 INSERT INTO organism_property (organism_id, property_id, value) VALUES ((SELECT organism_id from organism where organism_name = 'Providencia stuartii_1139'), (SELECT property_id from property where lower(property_name) = lower('Cellular morphology phenotype')), 'Bacillus, 0.6-0.7x1.5-1.25um.');
     INSERT INTO organism_property_log (organism_property_id, status_id, user_id) VALUES(LAST_INSERT_ID(), 1, 1);
-INSERT INTO organism_property (organism_id, property_id, value) VALUES ((SELECT organism_id from organism where organism_name = 'Providencia stuartii_1139'), (SELECT property_id from property where lower(property_name) = lower('Optimum Growth Temperature (ºC)')), '37');
+INSERT INTO organism_property (organism_id, property_id, value) VALUES ((SELECT organism_id from organism where organism_name = 'Providencia stuartii_1139'), (SELECT property_id from property where lower(property_name) = lower('Optimum Growth Temperature (C)')), '37');
     INSERT INTO organism_property_log (organism_property_id, status_id, user_id) VALUES(LAST_INSERT_ID(), 1, 1);
 INSERT INTO organism_property (organism_id, property_id, value) VALUES ((SELECT organism_id from organism where organism_name = 'Providencia stuartii_1139'), (SELECT property_id from property where lower(property_name) = lower('Gram stain')), 'Negative');
     INSERT INTO organism_property_log (organism_property_id, status_id, user_id) VALUES(LAST_INSERT_ID(), 1, 1);
@@ -1467,7 +1467,7 @@ INSERT INTO organism_property (organism_id, property_id, value) VALUES ((SELECT 
     INSERT INTO organism_property_log (organism_property_id, status_id, user_id) VALUES(LAST_INSERT_ID(), 1, 1);
 INSERT INTO organism_property (organism_id, property_id, value) VALUES ((SELECT organism_id from organism where organism_name = 'Pseudomonas stutzeri_219'), (SELECT property_id from property where lower(property_name) = lower('Cellular morphology phenotype')), 'Bacillus or Vibrio, but not helical, 0.5-1.0x1.5-5.0um.');
     INSERT INTO organism_property_log (organism_property_id, status_id, user_id) VALUES(LAST_INSERT_ID(), 1, 1);
-INSERT INTO organism_property (organism_id, property_id, value) VALUES ((SELECT organism_id from organism where organism_name = 'Pseudomonas stutzeri_219'), (SELECT property_id from property where lower(property_name) = lower('Optimum Growth Temperature (ºC)')), '?-40');
+INSERT INTO organism_property (organism_id, property_id, value) VALUES ((SELECT organism_id from organism where organism_name = 'Pseudomonas stutzeri_219'), (SELECT property_id from property where lower(property_name) = lower('Optimum Growth Temperature (C)')), '?-40');
     INSERT INTO organism_property_log (organism_property_id, status_id, user_id) VALUES(LAST_INSERT_ID(), 1, 1);
 INSERT INTO organism_property (organism_id, property_id, value) VALUES ((SELECT organism_id from organism where organism_name = 'Pseudomonas stutzeri_219'), (SELECT property_id from property where lower(property_name) = lower('Motility')), 'Positive');
     INSERT INTO organism_property_log (organism_property_id, status_id, user_id) VALUES(LAST_INSERT_ID(), 1, 1);
@@ -1488,7 +1488,7 @@ INSERT INTO organism_property (organism_id, property_id, value) VALUES ((SELECT 
     INSERT INTO organism_property_log (organism_property_id, status_id, user_id) VALUES(LAST_INSERT_ID(), 1, 1);
 INSERT INTO organism_property (organism_id, property_id, value) VALUES ((SELECT organism_id from organism where organism_name = 'Pseudomonas vulgaris_460'), (SELECT property_id from property where lower(property_name) = lower('Cellular morphology phenotype')), 'Bacillus or Vibrio, but not helical, 0.5-1.0x1.5-5.0um.');
     INSERT INTO organism_property_log (organism_property_id, status_id, user_id) VALUES(LAST_INSERT_ID(), 1, 1);
-INSERT INTO organism_property (organism_id, property_id, value) VALUES ((SELECT organism_id from organism where organism_name = 'Pseudomonas vulgaris_460'), (SELECT property_id from property where lower(property_name) = lower('Optimum Growth Temperature (ºC)')), '30-37');
+INSERT INTO organism_property (organism_id, property_id, value) VALUES ((SELECT organism_id from organism where organism_name = 'Pseudomonas vulgaris_460'), (SELECT property_id from property where lower(property_name) = lower('Optimum Growth Temperature (C)')), '30-37');
     INSERT INTO organism_property_log (organism_property_id, status_id, user_id) VALUES(LAST_INSERT_ID(), 1, 1);
 INSERT INTO organism_property (organism_id, property_id, value) VALUES ((SELECT organism_id from organism where organism_name = 'Pseudomonas vulgaris_460'), (SELECT property_id from property where lower(property_name) = lower('Motility')), 'Positive');
     INSERT INTO organism_property_log (organism_property_id, status_id, user_id) VALUES(LAST_INSERT_ID(), 1, 1);
@@ -1503,7 +1503,7 @@ INSERT INTO organism_property (organism_id, property_id, value) VALUES ((SELECT 
     INSERT INTO organism_property_log (organism_property_id, status_id, user_id) VALUES(LAST_INSERT_ID(), 1, 1);
 INSERT INTO organism_property (organism_id, property_id, value) VALUES ((SELECT organism_id from organism where organism_name = 'Serratia marcescens_446'), (SELECT property_id from property where lower(property_name) = lower('Pathogenic')), 'Opportunistic pathogen for hospitalized humans, causing septicemia and UTIs. Cause of mastitis in cows and other animal infections.');
     INSERT INTO organism_property_log (organism_property_id, status_id, user_id) VALUES(LAST_INSERT_ID(), 1, 1);
-INSERT INTO organism_property (organism_id, property_id, value) VALUES ((SELECT organism_id from organism where organism_name = 'Serratia marcescens_446'), (SELECT property_id from property where lower(property_name) = lower('Optimum Growth Temperature (ºC)')), '30-37');
+INSERT INTO organism_property (organism_id, property_id, value) VALUES ((SELECT organism_id from organism where organism_name = 'Serratia marcescens_446'), (SELECT property_id from property where lower(property_name) = lower('Optimum Growth Temperature (C)')), '30-37');
     INSERT INTO organism_property_log (organism_property_id, status_id, user_id) VALUES(LAST_INSERT_ID(), 1, 1);
 INSERT INTO organism_property (organism_id, property_id, value) VALUES ((SELECT organism_id from organism where organism_name = 'Serratia marcescens_446'), (SELECT property_id from property where lower(property_name) = lower('Gram stain')), 'Negative');
     INSERT INTO organism_property_log (organism_property_id, status_id, user_id) VALUES(LAST_INSERT_ID(), 1, 1);
@@ -1633,7 +1633,7 @@ INSERT INTO organism_property (organism_id, property_id, value) VALUES ((SELECT 
     INSERT INTO organism_property_log (organism_property_id, status_id, user_id) VALUES(LAST_INSERT_ID(), 1, 1);
 INSERT INTO organism_property (organism_id, property_id, value) VALUES ((SELECT organism_id from organism where organism_name = 'Staphylococcus aureus_29213'), (SELECT property_id from property where lower(property_name) = lower('Cellular morphology phenotype')), 'Coccus, 0.5-1.5um in diameter. Colony diameter less than 5mm.');
     INSERT INTO organism_property_log (organism_property_id, status_id, user_id) VALUES(LAST_INSERT_ID(), 1, 1);
-INSERT INTO organism_property (organism_id, property_id, value) VALUES ((SELECT organism_id from organism where organism_name = 'Staphylococcus aureus_29213'), (SELECT property_id from property where lower(property_name) = lower('Optimum Growth Temperature (ºC)')), '30-37');
+INSERT INTO organism_property (organism_id, property_id, value) VALUES ((SELECT organism_id from organism where organism_name = 'Staphylococcus aureus_29213'), (SELECT property_id from property where lower(property_name) = lower('Optimum Growth Temperature (C)')), '30-37');
     INSERT INTO organism_property_log (organism_property_id, status_id, user_id) VALUES(LAST_INSERT_ID(), 1, 1);
 INSERT INTO organism_property (organism_id, property_id, value) VALUES ((SELECT organism_id from organism where organism_name = 'Staphylococcus aureus_29213'), (SELECT property_id from property where lower(property_name) = lower('Gram stain')), 'Positive');
     INSERT INTO organism_property_log (organism_property_id, status_id, user_id) VALUES(LAST_INSERT_ID(), 1, 1);

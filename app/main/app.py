@@ -79,7 +79,7 @@ def metrics_user():
         count_other = my.fetch(f"""
             SELECT count(*) AS count
             FROM organism_property_log 
-            WHERE status_id = (SELECT status_id FROM status WHERE status_name = 'verified' limit 1)
+            WHERE status_id = (SELECT status_id FROM status WHERE status_name != 'verified' limit 1)
             AND user_id = {user_id}
         """)
 
@@ -158,48 +158,43 @@ def set_organism_property(organism_id):
             q1 = "UPDATE organism_property SET value = %s WHERE organism_property_id = %s"
             p1 = [v["value"], opid]
 
-            q2 = f"""INSERT INTO organism_property_log(
-                organism_property_id
-                , user_id
-                , status_id
-                , created_at
-            ) VALUES (
-                opid
-                , {user_id}
-                , (SELECT status_id FROM status WHERE status_name = 'updated' LIMIT 1)
-                , NOW()
-            )
+            q2 = f"""
+                INSERT INTO organism_property_log(
+                    organism_property_id
+                    , user_id
+                    , status_id
+                ) VALUES (
+                    opid
+                    , {user_id}
+                    , (SELECT status_id FROM status WHERE status_name = 'updated' LIMIT 1)
+                )
             """
-
-            sps.append([q1, p1])
-            sps.append([q2])
-            with Mysql() as my:
-                my.execute_statements(sps)
         else:
-            q1 = f"""INSERT INTO organism_property (
+            q1 = f"""
+                INSERT INTO organism_property (
                     organism_id
                     , property_id
                     , value
-                ) VALUES (%s, %s, %s)"""
+                ) VALUES (%s, %s, %s)
+            """
             p1 = [v["organism_id"], v["property_id"], v["value"]]
 
-            q2 = f"""INSERT INTO organism_property_log(
-                organism_property_id
-                , user_id
-                , status_id
-                , created_at
-            ) VALUES (
-                LAST_INSERT_ID()
-                , {user_id}
-                , (SELECT status_id FROM status WHERE status_name = 'input' LIMIT 1)
-                , NOW()
-            )
+            q2 = f"""
+                INSERT INTO organism_property_log(
+                    organism_property_id
+                    , user_id
+                    , status_id
+                ) VALUES (
+                    LAST_INSERT_ID()
+                    , {user_id}
+                    , (SELECT status_id FROM status WHERE status_name = 'input' LIMIT 1)
+                )
             """
 
-            sps.append([q1, p1])
-            sps.append([q2])
-            with Mysql() as my:
-                my.execute_statements(sps)
+        sps.append([q1, p1])
+        sps.append([q2])
+        with Mysql() as my:
+            my.execute_statements(sps)
 
     q = _qop + f" AND op.organism_id = {organism_id}"
 
@@ -211,7 +206,7 @@ def set_organism_property(organism_id):
 
 @app.route('/organism-property/<int:organism_id>/verify', methods=['POST'])
 @jwt_required
-def set_organism_property_log(organism_id):
+def verify_organism_property(organism_id):
     token = get_jwt_identity()
     user_id = token['user_id']
 
@@ -220,15 +215,16 @@ def set_organism_property_log(organism_id):
     for row in form:
         opid = row['organism_property_id']
 
-        q = f"""INSERT INTO organism_property_log(
-            organism_property_id
-            , user_id
-            , status_id
-        ) VALUES (
-            {opid}
-            , {user_id}
-            , (SELECT status_id FROM status WHERE status_name = 'verified' LIMIT 1)
-        )
+        q = f"""
+            INSERT INTO organism_property_log(
+                organism_property_id
+                , user_id
+                , status_id
+            ) VALUES (
+                {opid}
+                , {user_id}
+                , (SELECT status_id FROM status WHERE status_name = 'verified' LIMIT 1)
+            )
         """
 
         with Mysql() as my:
@@ -253,14 +249,19 @@ def all_category():
 
 @app.route('/property')
 def all_property():
-    q = '''
-        SELECT p.*, pc.property_category_name, pc.property_category_order, pt.property_type_name
+    q = """
+        SELECT 
+            p.*
+            , pc.property_category_name
+            , pt.property_type_name
         FROM property p
         JOIN property_category pc on p.property_category_id = pc.property_category_id
         JOIN property_type pt on p.property_type_id = pt.property_type_id
-    '''
+    """
+
     with Mysql() as my:
         records = my.fetch(q)
+
     return utils.generate_success_response(records)
 
 
@@ -325,22 +326,6 @@ def login():
 @app.route('/test', methods=['GET'])
 def test():
     return jsonify({'success': True})
-
-
-@app.route('/testdb', methods=['GET'])
-@jwt_required
-def dbtest():
-    with Mysql() as my:
-        records = my.fetch('SELECT * FROM z_test')
-    return jsonify(records)
-
-
-@app.route('/testjwt', methods=['GET'])
-@jwt_required
-def testjwt():
-    # Access the identity of the current user with get_jwt_identity
-    current_user = get_jwt_identity()
-    return jsonify(current_user)
 
 
 if __name__ == '__main__':
