@@ -1,0 +1,103 @@
+Aerobic	Organisms that require the presence of oxygen to live and grow or any bacteria requiring free oxygen for the metabolic breakdown of materials.	Yes/No	General characteristics
+Anaerobe	Organisms that can survive and grow without the presence of free oxygen in their immediate environment.	Yes/No	General characteristics
+Cellular morphology phenotype	Cell morphology is essential in identifying the shape, structure, form, and size of cells. In bacteriology, for instance, cell morphology pertains to the shape of bacteria if cocci, bacilli, spiral, etc. and the size of bacteria. 	Yes/No	General characteristics
+Clumping Factor	Does the organism express a fibrin/fibrinogen binding protein (clumping factor) that promotes attachment to blood clots and traumatized tissue.	Yes/No	General characteristics
+DNA G+C Content (mol%)		float	General characteristics
+flagellum arrangement	Arrangement of lash-like appendage that protrudes from the cell body of certain prokaryotic and eukaryotic cells.	text	General characteristics
+Gram stain	The staining procedure differentiates organisms of the domain Bacteria according to cell wall structure. Gram-positive cells have a thick peptidoglycan layer and stain blue to purple. Gram-negative cells have a thin peptidoglycan layer and stain red to pink. 	Positive/Negative	General characteristics
+Growth at 37C	Determines if the organism can grow at 37°C	Yes/No	General characteristics
+Habitat	Place where an organism or a biological population normally lives or occurs	text	General characteristics
+Hemolysis	This test provides information on what hemolytic enzymes a bacterium possesses. By providing a culture medium enriched with red blood cells, it is possible to determine whether a bacterium can destroy the cells and whether it can digest the hemoglobin inside.	Yes/No	General characteristics
+Hydrogen sulfide production	This test determines whether the microbe reduces sulfur-containing compounds to sulfides during the process of metabolism.	Yes/No	General characteristics
+Motility 	Can the microbe move (swim) by means of flagella.	Yes/No	General characteristics
+Optimal NaCl concentration		float	General characteristics
+Optimum Growth Temperature (C)	Temperature at which the organism grows most rapidly	float	General characteristics
+Optimum pH		float	General characteristics
+Pathogenic	An agent causing disease or illness to its host, such as an organism or infectious particle capable of producing a disease in another organism.	Yes/No	General characteristics
+pH growth range		float	General characteristics
+Phylum	The primary subdivision of a taxonomic kingdom that groups together all classes of organisms that have the same body plan	text	General characteristics
+Pigmented	Is the organism colored	text	General characteristics
+Salinity growth range (%)		float	General characteristics
+Strain	The genetic variant of the organism	text	General characteristics
+Swarming	Swarming involves differentiation of vegetative cells into hyper-flagellated swarm cells that undergo rapid and coordinated population migration across solid or semi-solid surfaces.	Yes/No	General characteristics
+Temperature growth range (Celsius)		float	General characteristics
+a-glucosidase		Positive/Negative	Enzyme activity
+Acetoin production from sodium pyruvate		Positive/Negative	Enzyme activity
+Acid phospphatase		Positive/Negative	Enzyme activity
+alpa-galactosidase		Positive/Negative	Enzyme activity
+Arginine dihydrolase	The purpose is to see if the microbe can use the amino acid arginine as a source of carbon and energy for growth. Use of arginine is accomplished by the enzyme arginine dihydrolase.	Positive/Negative	Enzyme activity
+beta-galactosidase		Positive/Negative	Enzyme activity
+Catalase Production (24h)	The purpose is to see if the microbe has catalase, a protective enzyme capable of destroying the chemical hydrogen peroxide.	Positive/Negative	Enzyme activity
+Cystine arylamidase		Positive/Negative	Enzyme activity
+Esculin hydrolysis	Can the organism hydrolyze the compound esculin as a carbon source.	Positive/Negative	Enzyme activity
+Esterase (C4)		Positive/Negative	Enzyme activity
+Esterase Lipase (C8)		Positive/Negative	Enzyme activity
+Gelatinase	Can the organism use the protein gelatin as a source of carbon and energy for growth. Use of gelatin is accomplished by the enzyme gelatinase.	Positive/Negative	Enzyme activity
+Indole production from typtophan	The indole test screens for the ability of an organism to degrade the amino acid tryptophan and produce indole.	Positive/Negative	Enzyme activity
+Leucine arylamidase		Positive/Negative	Enzyme activity
+Lipase	Can the organism use corn oil, a lipid, as a source of carbon and energy for growth. Use ofcorn oil is accomplished by a class of enzymes called lipases.	Positive/Negative	Enzyme activity
+Lysine decarboxylase	The purpose is to see if the microbe can use the amino acid lysine as a source of carbon and energy for growth. Use of lysine is accomplished by the enzyme lysine decarboxylase.	Positive/Negative	Enzyme activity
+N-acetyl-beta-gulcosaminidase		Positive/Negative	Enzyme activity
+Napthol-AS-B1 phosphohydrolase		Positive/Negative	Enzyme activity
+ONPG	This test detects only presence of beta galactosidase enzyme.	Positive/Negative	Enzyme activity
+Ornithine decarboxylase	The purpose is to see if the microbe can use the amino acid ornithine as a source of carbon and energy for growth. Use of ornithine is accomplished by the enzyme ornithine decarboxylase.	Positive/Negative	Enzyme activity
+Oxidase	the oxidase test is a biochemical reaction that assays for the presence of cytochrome oxidase, an enzyme sometimes called indophenol oxidase. In the presence of an organism that contains the cytochrome oxidase enzyme, the reduced colorless reagent becomes an oxidized colored product. 	Positive/Negative	Enzyme activity
+Phenylalanine deaminase	This test determines whether the microbe produces the enzyme phenylalanine deaminase, which is needed for it to use the amino acid phenylalanine as a carbon and energy source for growth.	Positive/Negative	Enzyme activity
+Tryptophane deaminase		Positive/Negative	Enzyme activity
+Typsin		Positive/Negative	Enzyme activity
+Urea hydrolysis	The urease test identifies those organisms that are capable of hydrolyzing urea to produce ammonia and carbon dioxide.	Positive/Negative	Enzyme activity
+Valine arylamidase		Positive/Negative	Enzyme activity
+Voges-Proskauer	The Voges-Proskauer test determines the capability of some organisms to produce non acidic or neutral end products, such as acetoin, from the organic acids that result from using butylene glycol pathway.	Positive/Negative	Enzyme activity
+beta-methyl-D-glucoside		Positive/Negative	Growth with different C/N sources
+Citrate Utilization	The citrate test screens a bacterial isolate for the ability to utilize citrate as its carbon and energy source.	Positive/Negative	Growth with different C/N sources
+D-Cellobiose		Positive/Negative	Growth with different C/N sources
+D-Fructose		Positive/Negative	Growth with different C/N sources
+D-Maltose		Positive/Negative	Growth with different C/N sources
+D-Mannitol		Positive/Negative	Growth with different C/N sources
+D-Mannose		Positive/Negative	Growth with different C/N sources
+D-Melibiose		Positive/Negative	Growth with different C/N sources
+D-Raffinose		Positive/Negative	Growth with different C/N sources
+D-Salicin		Positive/Negative	Growth with different C/N sources
+D-Trehalose		Positive/Negative	Growth with different C/N sources
+Deoxyribonuclease, 25C 	The purpose is to see if the microbe can use DNA as a source of carbon and energy for growth. Use of DNA is accomplished by an enzyme called DNase.	Positive/Negative	Growth with different C/N sources
+Growth on inorganic nitrogen agar	This test determines whether the microbe can grow in a medium containing inorganic nitrogen agar.	Positive/Negative	Growth with different C/N sources
+Growth on Simmons citrate agar	This test determines whether the microbe can grow in a medium containing citrate agar.	Positive/Negative	Growth with different C/N sources
+Growth on Thiocitrate Bile Salts agar	Characteristic of Vibrios	Positive/Negative	Growth with different C/N sources
+KCN, growth	Can the organism grow in a medium where potassium cyanide is present as a carbon and nitrogen source.	Positive/Negative	Growth with different C/N sources
+L-Rhamnose		Positive/Negative	Growth with different C/N sources
+Malonate utilization	Can the organism use the compound malonate as its sole source of carbon and energy for growth.	Positive/Negative	Growth with different C/N sources
+Myo-inositol		Positive/Negative	Growth with different C/N sources
+Nitrate reduction	This test determines whether the microbe produces the enzymes nitrate reductase and nitrite reductase. The two enzymes catalyze two reactions involved in converting starting compound nitrate into end product nitrogen gas.	Positive/Negative	Growth with different C/N sources
+Nutrient agar with 7.5% NaCl	This test determines whether the microbe can grow on a nutrient medium where the concentration of sodium chloride (NaCl) is 7.5%.	Positive/Negative	Growth with different C/N sources
+Sucrose		Positive/Negative	Growth with different C/N sources
+Tartrate, Jordans	Can the organism utilize the compound tartrate as a carbon source.	Positive/Negative	Growth with different C/N sources
+Tween 40		Positive/Negative	Growth with different C/N sources
+Acetate utilization	Can the organism ferment acetate as a carbon source.	Positive/Negative	Fermentation
+alpha-CH2-D-glucoside, acid production		Positive/Negative	Fermentation
+alpha-Methyl-D-glucoside, acid production		Positive/Negative	Fermentation
+Amygdalin	Can the organism ferment amygdalin as a carbon source.	Positive/Negative	Fermentation
+Cellobiose, acid production	Can the organism ferment the carbohydrate cellobiose as a carbon source.	Positive/Negative	Fermentation
+D-Adonitol, acid production	Can the organism  ferment the carbohydrate adonitol as a carbon source.	Positive/Negative	Fermentation
+D-Arabitol, acid production	Can the organism ferment the carbohydrate arabitol as a carbon source.	Positive/Negative	Fermentation
+D-Galactose, acid production	Can the organism ferment the carbohydrate galactose as a carbon source.	Positive/Negative	Fermentation
+D-Glucose, acid production	Can the organism ferment the carbohydrate glucose (also known as dextrose) as a carbon source.	Positive/Negative	Fermentation
+D-Glucose, gas production	Can the organism ferment the carbohydrate glucose (also known as dextrose) as a carbon source, and to see if the fermentation products include gases.	Positive/Negative	Fermentation
+D-Mannitol, acid production	Can the organism ferment the carbohydrate mannitol as a carbon source.	Positive/Negative	Fermentation
+D-Mannose, acid production	Can the organism ferment the carbohydrate mannose as a carbon source.	Positive/Negative	Fermentation
+D-Sorbitol, acid production	Can the organism ferment the carbohydrate sorbitol as a carbon source.	Positive/Negative	Fermentation
+D-Xylose, acid production	Can the organism ferment the carbohydrate xylose as a carbon source.	Positive/Negative	Fermentation
+Dulcitol, acid production	Can the organism ferment the carbohydrate dulcitol as a carbon source.	Positive/Negative	Fermentation
+Glycerol, acid production	Can the organism ferment the carbohydrate glycerol as a carbon source.	Positive/Negative	Fermentation
+L-Arabinose, acid production	Can the organism ferment the carbohydrate arabinose as a carbon source.	Positive/Negative	Fermentation
+L-Rhamnose, acid production	Can the organism ferment the carbohydrate rhamnose as a carbon source.	Positive/Negative	Fermentation
+Lactose, acid production	Can the organism ferment the carbohydrate lactose as a carbon source.	Positive/Negative	Fermentation
+Maltose, acid production	Can the organism ferment the carbohydrate maltose as a carbon source.	Positive/Negative	Fermentation
+Melibiose, acid production	Can the organism ferment the carbohydrate melibiose as a carbon source.	Positive/Negative	Fermentation
+Methyl red growth	used to identify bacteria producing stable acids by mechanisms of mixed acid fermentation of glucose	Positive/Negative	Fermentation
+Mucate, acid production	Can the organism ferment mucate as a carbon source.	Positive/Negative	Fermentation
+myo-Inositol, acid production	Can the organism ferment the carbohydrate inositol as a carbon source.	Positive/Negative	Fermentation
+Oxidation-fermentation	The oxidative-fermentative test is used to determine if gram-negative bacteria metabolize carbohydrates oxidatively, by fermentation, or are nonsacchrolytic and therefore have no ability to use the carbohydrate in the media. 	Positive/Negative	Fermentation
+Raffinose, acid production	Can the organism ferment the carbohydrate raffinose as a carbon source.	Positive/Negative	Fermentation
+Salicin, acid production	Can the organism ferment the carbohydrate salicin as a carbon source.	Positive/Negative	Fermentation
+Sucrose, acid production	Can the organism ferment the carbohydrate sucrose as a carbon source.	Positive/Negative	Fermentation
+Trehalose, acid production	Can the organism ferment the carbohydrate trehalose as a carbon source.	Positive/Negative	Fermentation

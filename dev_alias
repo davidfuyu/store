@@ -1,0 +1,10 @@
+
+alias p='cd ~/p'
+alias pssh='docker exec -it p_app_1 /bin/bash'
+alias pdb='docker exec -it p_db_1 mysql -proot -Dgeneral'
+alias pup='cd ~/p; docker-compose up'
+alias pscratch='cd ~/p; docker container rm -f $(docker ps -aq); docker images -a | grep "latest" | awk "{print $3}" | xargs docker rmi; docker-compose up --build'
+alias pcleanapp='docker image prune -f; docker container stop p_app_1;  docker container rm p_app_1; docker-compose up --build'
+alias pcleandb='docker image prune -f; docker container stop p_db_1;  docker container rm p_db_1; docker-compose up --build'
+alias pwatch='cd ~/p/app/main/static;npm run watch'
+alias pbuild='cd ~/p/app/main/static;npm run build; p;'
