@@ -23,18 +23,26 @@ _qop = f"""
         , op.organism_property_id
         , op.property_id
         , p.property_name
-        , value
+        , op.value AS value
         , opl.user_id
         , s.status_name
+        , r.value AS reference
     FROM organism_property_log opl
-    JOIN organism_property op on opl.organism_property_id = op.organism_property_id
-    JOIN organism o ON op.organism_id = o.organism_id
-    JOIN property p ON op.property_id = p.property_id
-    JOIN status s ON opl.status_id = s.status_id
+    INNER JOIN organism_property op on opl.organism_property_id = op.organism_property_id
+    INNER JOIN organism o ON op.organism_id = o.organism_id
+    INNER JOIN property p ON op.property_id = p.property_id
+    INNER JOIN status s ON opl.status_id = s.status_id
+    LEFT JOIN organism_property_reference opr ON
+        opr.organism_property_reference_id = (
+            SELECT MAX(organism_property_reference_id)
+            FROM organism_property_reference
+            WHERE organism_property_id = op.organism_property_id
+            )
+    LEFT JOIN reference r ON opr.reference_id = r.reference_id
     WHERE organism_property_log_id = (
         SELECT MAX(organism_property_log_id) 
         FROM organism_property_log opl2
-        WHERE opl2.organism_property_id = opl.organism_property_id
+        WHERE opl.organism_property_id = opl2.organism_property_id
         GROUP BY opl2.organism_property_id
         )
 """
@@ -48,8 +56,8 @@ def index():
 @app.route('/metrics/general', methods=['GET'])
 def metrics():
     with Mysql() as my:
-        count_organism = my.fetch("SELECT count(*) AS count FROM organism")
-        count_organism_property = my.fetch(
+        count_organism = my.fetchall("SELECT count(*) AS count FROM organism")
+        count_organism_property = my.fetchall(
             "SELECT count(*) AS count FROM organism_property")
 
     records = {
@@ -67,16 +75,16 @@ def metrics_user():
     user_id = token['user_id']
 
     with Mysql() as my:
-        count_organism = my.fetch("SELECT count(*) AS count FROM organism")
-        count_organism_property = my.fetch(
+        count_organism = my.fetchall("SELECT count(*) AS count FROM organism")
+        count_organism_property = my.fetchall(
             "SELECT count(*) AS count FROM organism_property")
-        count_verified = my.fetch(f"""
+        count_verified = my.fetchall(f"""
             SELECT count(*) AS count
             FROM organism_property_log 
             WHERE status_id = (SELECT status_id FROM status WHERE status_name = 'verified' limit 1)
             AND user_id = {user_id}
        """)
-        count_other = my.fetch(f"""
+        count_other = my.fetchall(f"""
             SELECT count(*) AS count
             FROM organism_property_log 
             WHERE status_id = (SELECT status_id FROM status WHERE status_name != 'verified' limit 1)
@@ -98,7 +106,7 @@ def all_organism():
     q = "SELECT * FROM organism"
 
     with Mysql() as my:
-        records = my.fetch(q)
+        records = my.fetchall(q)
 
     return utils.generate_success_response(records)
 
@@ -108,7 +116,7 @@ def get_organism(organism_id):
     q = f"SELECT * FROM organism WHERE organism_id = {organism_id} LIMIT 1"
 
     with Mysql() as my:
-        records = my.fetch(q)
+        records = my.fetchall(q)
 
     return utils.generate_success_response(records)
 
@@ -137,7 +145,7 @@ def organism_property(organism_id):
     q = _qop + f" AND op.organism_id = {organism_id}"
 
     with Mysql() as my:
-        records = my.fetch(q)
+        records = my.fetchall(q)
 
     return utils.generate_success_response(records)
 
@@ -149,9 +157,20 @@ def set_organism_property(organism_id):
     user_id = token['user_id']
 
     form = request.get_json()
+    reference = form['reference']
+    data = form['data']
 
-    for k in form:
-        v = form[k]
+    if (isinstance(reference, dict)):
+        rid = reference['reference_id']
+    elif (isinstance(reference, str)):
+        q1 = "INSERT INTO reference(value) VALUES (%s)"
+        q2 = "SELECT LAST_INSERT_ID() AS reference_id"
+        with Mysql() as my:
+            record = my.execute_statements([[q1, [reference]], q2])
+        rid = record[0]['reference_id']
+
+    for k in data:
+        v = data[k]
         sps = []
         if ('organism_property_id' in v):
             opid = v['organism_property_id']
@@ -164,13 +183,13 @@ def set_organism_property(organism_id):
                     , user_id
                     , status_id
                 ) VALUES (
-                    opid
+                    {opid}
                     , {user_id}
                     , (SELECT status_id FROM status WHERE status_name = 'updated' LIMIT 1)
                 )
             """
         else:
-            q1 = f"""
+            q1 = """
                 INSERT INTO organism_property (
                     organism_id
                     , property_id
@@ -190,16 +209,29 @@ def set_organism_property(organism_id):
                     , (SELECT status_id FROM status WHERE status_name = 'input' LIMIT 1)
                 )
             """
+        
+        q3 = f"""
+            INSERT INTO organism_property_reference(
+                organism_property_id
+                , reference_id
+                , user_id
+            ) VALUES (
+                (SELECT organism_property_id FROM organism_property_log WHERE organism_property_log_id = LAST_INSERT_ID())
+                , {rid}
+                , {user_id}
+            )
+            """
 
         sps.append([q1, p1])
-        sps.append([q2])
+        sps.append(q2)
+        sps.append(q3)
         with Mysql() as my:
             my.execute_statements(sps)
 
     q = _qop + f" AND op.organism_id = {organism_id}"
 
     with Mysql() as my:
-        records = my.fetch(q)
+        records = my.fetchall(q)
 
     return utils.generate_success_response(records)
 
@@ -233,7 +265,24 @@ def verify_organism_property(organism_id):
     q = _qop + f" AND op.organism_id = {organism_id}"
 
     with Mysql() as my:
-        records = my.fetch(q)
+        records = my.fetchall(q)
+
+    return utils.generate_success_response(records)
+
+
+@app.route('/reference/search', methods=['GET'])
+@jwt_required
+def search_reference():
+    args = request.args.to_dict()
+    if 'search' not in args:
+        return utils.generate_success_response()
+    name = f"%{args['search']}%"
+
+    q = "SELECT * FROM reference WHERE value LIKE %s"
+    p = [name]
+
+    with Mysql() as my:
+        records = my.fetchall(q, p)
 
     return utils.generate_success_response(records)
 
@@ -243,7 +292,7 @@ def all_category():
     q = "SELECT * FROM property_category ORDER BY property_category_order"
 
     with Mysql() as my:
-        records = my.fetch(q)
+        records = my.fetchall(q)
     return utils.generate_success_response(records)
 
 
@@ -260,7 +309,7 @@ def all_property():
     """
 
     with Mysql() as my:
-        records = my.fetch(q)
+        records = my.fetchall(q)
 
     return utils.generate_success_response(records)
 
