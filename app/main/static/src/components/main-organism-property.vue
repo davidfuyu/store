@@ -41,9 +41,9 @@
           <div v-for="(c, i) in categories" :key="i">
             <b style="font-size:1.5em">{{c.property_category_name}}</b>
             <div v-for="(p,j) in categorizedProperties[c.property_category_name]" :key="j">
-              <v-container>
+              <v-container fluid>
                 <v-row>
-                  <v-col cols="5">
+                  <v-col cols="3">
                     <b>{{p['property_name']}}</b>:
                   </v-col>
                   <v-col cols="5">
@@ -52,6 +52,7 @@
                         :items="defaultPositiveNegative"
                         v-model="editContent[p['property_id']]['value']"
                         :disabled="editContent[p['property_id']]['status_name'] == 'verified'"
+                        dense
                       ></v-autocomplete>
                     </div>
                     <div v-else-if="p['property_name'] == 'Yes/No'">
@@ -59,6 +60,7 @@
                         :items="defaultYesNo"
                         v-model="editContent[p['property_id']]['value']"
                         :disabled="editContent[p['property_id']]['status_name'] == 'verified'"
+                        dense
                       ></v-autocomplete>
                     </div>
                     <div v-else>
@@ -68,9 +70,11 @@
                         solo
                         hide-details
                         :disabled="editContent[p['property_id']]['status_name'] == 'verified'"
+                        dense
                       ></v-text-field>
                     </div>
                   </v-col>
+                  <v-col cols="4">{{editContent[p['property_id']]['reference']}}</v-col>
                 </v-row>
               </v-container>
             </div>
@@ -99,16 +103,26 @@
           <b style="font-size:1.5em">{{c.property_category_name}}</b>
           <div v-for="(p,j) in categorizedProperties[c.property_category_name]" :key="j">
             <div v-if="keyed[p['property_id']]">
-              <span style="margin-left:40px">{{p['property_name']}}:</span>
-              <span v-if="keyed[p['property_id']]['status_name'] == 'verified'">
-                <b>{{keyed[p['property_id']]['value']}}</b>
-              </span>
-              <span v-else>{{keyed[p['property_id']]['value']}}</span>
+              <v-row>
+                <v-col cols="8">
+                  <span style="margin-left:40px">{{p['property_name']}}:</span>
+                  <span v-if="keyed[p['property_id']]['status_name'] == 'verified'">
+                    <b>{{keyed[p['property_id']]['value']}}</b>
+                  </span>
+                  <span v-else>{{keyed[p['property_id']]['value']}}</span>
+                </v-col>
+                <v-col cols="4">{{keyed[p['property_id']]['reference']}}</v-col>
+              </v-row>
             </div>
           </div>
         </div>
       </div>
     </div>
+    <reference-dialog
+      :showReferenceDialog="showReferenceDialog"
+      :onCloseReferenceButton="onCloseReferenceButton"
+      :onSubmitReferenceButton="onSubmitReferenceButton"
+    ></reference-dialog>
   </v-container>
 </template>
 
@@ -116,6 +130,7 @@
 /* eslint-disable */
 import axios from "axios";
 import { mapState, mapGetters } from "vuex";
+import ReferenceDialog from "@/components/dialog-reference.vue";
 
 export default {
   data() {
@@ -132,7 +147,7 @@ export default {
       verifyCandidates: [],
       verifyContent: {},
 
-      showDialog: false,
+      showReferenceDialog: false,
 
       defaultPositiveNegative: [
         "positive",
@@ -156,6 +171,9 @@ export default {
         "Different reactions in different taxa"
       ]
     };
+  },
+  components: {
+    ReferenceDialog
   },
   computed: {
     ...mapState("category", ["categories"]),
@@ -203,6 +221,8 @@ export default {
         this.verifyContent[pid] = record;
       }
     },
+
+    // edit
     onClickEditButton: function() {
       for (let i = 0; i < this.properties.length; i++) {
         let pid = this.properties[i]["property_id"];
@@ -222,7 +242,13 @@ export default {
       this.isEditing = false;
     },
     onClickEditSavelButton: function() {
-      let todo = {};
+      this.showReferenceDialog = true;
+    },
+    onCloseReferenceButton: function() {
+      this.showReferenceDialog = false;
+    },
+    onSubmitReferenceButton: function(payload) {
+      let data = {};
       for (let i = 0; i < this.properties.length; i++) {
         let pid = this.properties[i]["property_id"];
         if (
@@ -231,19 +257,25 @@ export default {
           (this.keyed[pid] != undefined &&
             this.editContent[pid]["value"] != this.keyed[pid]["value"])
         ) {
-          todo[pid] = JSON.parse(JSON.stringify(this.editContent[pid]));
+          data[pid] = JSON.parse(JSON.stringify(this.editContent[pid]));
         }
       }
 
       axios
-        .post(`/organism-property/${this.organismId}`, todo)
+        .post(`/organism-property/${this.organismId}`, {
+          reference: payload,
+          data: data
+        })
         .then(response => {
           if (response.data.success) {
             this.updateVuex(response.data.records);
           }
           this.isEditing = false;
         });
+      this.showReferenceDialog = false;
     },
+
+    // verify
     onClickVerifyButton: function() {
       this.verifyCandidates = [];
       this.isVerifying = true;
