@@ -29,20 +29,8 @@ class MysqlUtil(object):
             self.__conn.commit()
         self.__conn.close()
 
-    def fetchone(self, sql, params=None):
-        self.__cursor.execute(sql, params)
-        return self.__cursor.fetchone()
-
-    def fetchall(self, sql, params=None):
-        self.__cursor.execute(sql, params)
-        return self.__cursor.fetchall()
-
-    def execute_statements(self, qps: list):
-        """
-        execute several statements in array, return results
-        qps: [[q0, p0], [qp1]]
-        """
-        for qp in qps:
+    def execute_statements(self, statements: list):
+        for qp in statements:
             if isinstance(qp, list):
                 if len(qp) > 1:
                     self.__cursor.execute(qp[0], qp[1])
@@ -51,6 +39,14 @@ class MysqlUtil(object):
             else:
                 self.__cursor.execute(qp)
 
+        return self.__cursor.fetchall()
+
+    def fetchone(self, sql, params=None):
+        self.__cursor.execute(sql, params)
+        return self.__cursor.fetchone()
+
+    def fetchall(self, sql, params=None):
+        self.__cursor.execute(sql, params)
         return self.__cursor.fetchall()
 
     def execute(self, sql, params=None):

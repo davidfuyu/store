@@ -5,28 +5,20 @@
         <v-toolbar-title>Please Login ...</v-toolbar-title>
       </v-toolbar>
 
-      <v-form ref="form">
-        <v-card-text>
-          <v-container grid-list-md fluid>
-            <v-row>
-              <v-col cols="12">
-                <v-text-field label="email" v-model="email" class="text-xs" required></v-text-field>
-              </v-col>
-            </v-row>
-            <v-row>
-              <v-col cols="12">
-                <v-text-field
-                  label="password"
-                  v-model="password"
-                  type="password"
-                  class="text-xs"
-                  required
-                ></v-text-field>
-              </v-col>
-            </v-row>
-          </v-container>
-        </v-card-text>
-      </v-form>
+      <v-card-text>
+        <v-container grid-list-md fluid>
+          <v-row>
+            <v-col cols="12">
+              <v-text-field label="email" v-model="email" class="text-xs" required></v-text-field>
+            </v-col>
+          </v-row>
+          <v-row>
+            <v-col cols="12">
+              <v-text-field label="password" v-model="password" type="password" class="text-xs" required ></v-text-field>
+            </v-col>
+          </v-row>
+        </v-container>
+      </v-card-text>
 
       <v-divider></v-divider>
       <v-card-actions>
@@ -69,7 +61,7 @@ export default {
           }
         });
     },
-    register(){
+    register() {
       this.$router.push("/register");
       this.showDialog = false;
     },
